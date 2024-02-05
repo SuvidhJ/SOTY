@@ -1,11 +1,10 @@
 import React from "react";
-
+import GlowBox from "../components/GlowBox";
 const About = () => {
   return (
-    <div className="w-full h-screen flex justify-center items-center">
-      <div className="--about-container w-[80%] h-fit rounded-3xl relative overflow-hidden px-12 py-20">
-        <div className="--inner-shadow border-[12px] border-white w-full h-full  blur-lg absolute top-0 left-0"></div>
-        <div className="--content">
+    <div className="w-[80%] mx-auto h-screen flex justify-center items-center">
+      <GlowBox>
+        <div className="--content ">
           <div className="--heading-main text-white text-6xl font-bold text-center">
             About The Event
           </div>
@@ -37,7 +36,7 @@ const About = () => {
             voluptatem ratione, inventore alias aliquid.
           </div>
         </div>
-      </div>
+      </GlowBox>
     </div>
   );
 };
