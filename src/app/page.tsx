@@ -6,7 +6,7 @@ import NavWrapper from "./wrappers/navWrapper";
 import MainWrapper from "./wrappers/mainWrapper";
 import Navbar from "./sections/Navbar";
 import Landing from "./landing/page";
-import Login from "./landing/login/page";
+import Login from "./login/page";
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [menu, setMenu] = useState<string>("home");
