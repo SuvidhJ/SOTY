@@ -5,8 +5,8 @@ import BaseWrapper from "./wrappers/baseWrapper";
 import NavWrapper from "./wrappers/navWrapper";
 import MainWrapper from "./wrappers/mainWrapper";
 import Navbar from "./sections/Navbar";
-import Landing from "./landing/page";
-import Login from "./login/page";
+import Landing from "./landing/Landing";
+import Login from "./login/Login";
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [menu, setMenu] = useState<string>("home");
@@ -17,10 +17,10 @@ export default function Home() {
           <Navbar isLoggedIn={isLoggedIn} setMenu={setMenu} menu={menu} />
         </NavWrapper>
         <MainWrapper>
-          {menu === "faq" ? (
-            <Landing menu={menu} />
-          ) : isLoggedIn ? (
-            <Landing menu={menu} />
+          {isLoggedIn ? (
+            <Landing selectedMenu={menu} />
+          ) : menu === "faq" ? (
+            <Landing selectedMenu={menu} />
           ) : (
             <Login setIsLoggedIn={setIsLoggedIn} />
           )}
