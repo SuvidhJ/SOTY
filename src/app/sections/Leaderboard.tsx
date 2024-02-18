@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PrimaryButton from "../components/PrimaryButton";
-import { leaderboardData } from "../data/leaderboardData";
 import SecondaryButton from "../components/SecondaryButton";
+import axios from "axios";
+interface LeaderboardData {
+  username: string;
+  score: number;
+}
 const showPerPage = 20;
 const Leaderboard = () => {
+  const [leaderboardData, setLeaderboardData] = useState([]);
   const [page, setPage] = useState<number>(0);
   const handleNextPage = () => {
     if (page + 1 < leaderboardData.length / showPerPage) setPage(page + 1);
@@ -13,6 +18,14 @@ const Leaderboard = () => {
       setPage(page - 1);
     }
   };
+  useEffect(() => {
+    (async () => {
+      const response = await axios.get(
+        "https://mfc-hunt-soty-be.vercel.app/users/allusers"
+      );
+      setLeaderboardData(response.data);
+    })();
+  }, []);
   return (
     <div className="w-full h-fit flex justify-center items-center py-12">
       <div className="--leaderboard-container w-[80%] h-full flex flex-col justify-start items-center gap-12">
@@ -30,20 +43,21 @@ const Leaderboard = () => {
               <th>Score</th>
             </thead>
             <br />
-            {leaderboardData.map((data, i) => (
-              <>
-                {i < showPerPage * (page + 1) && i >= showPerPage * page && (
-                  <tr
-                    className="--leaderboard-menu-item h-16 text-center text-4xl font-semibold border-b-[1px] border-white"
-                    key={i}
-                  >
-                    <td className="">{i + 1}</td>
-                    <td>{data.teamName}</td>
-                    <td>{data.score}</td>
-                  </tr>
-                )}
-              </>
-            ))}
+            {leaderboardData &&
+              leaderboardData.map((data: LeaderboardData, i) => (
+                <>
+                  {i < showPerPage * (page + 1) && i >= showPerPage * page && (
+                    <tr
+                      className="--leaderboard-menu-item h-16 text-center text-4xl font-semibold border-b-[1px] border-white"
+                      key={i}
+                    >
+                      <td className="">{i + 1}</td>
+                      <td>{data?.username}</td>
+                      <td>{data?.score}</td>
+                    </tr>
+                  )}
+                </>
+              ))}
           </table>
           <div className="buttons flex justify-between items-center px-6">
             <SecondaryButton onClickHandler={handlePrevPage}>

@@ -14,13 +14,18 @@ export default function Home() {
     <>
       <BaseWrapper>
         <NavWrapper>
-          <Navbar isLoggedIn={isLoggedIn} setMenu={setMenu} menu={menu} />
+          <Navbar
+            isLoggedIn={isLoggedIn}
+            setMenu={setMenu}
+            menu={menu}
+            setIsLoggedIn={setIsLoggedIn}
+          />
         </NavWrapper>
         <MainWrapper>
           {isLoggedIn ? (
-            <Landing selectedMenu={menu} />
+            <Landing selectedMenu={menu} setMenu={setMenu} />
           ) : menu === "faq" ? (
-            <Landing selectedMenu={menu} />
+            <Landing selectedMenu={menu} setMenu={setMenu} />
           ) : (
             <Login setIsLoggedIn={setIsLoggedIn} />
           )}

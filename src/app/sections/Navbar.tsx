@@ -1,12 +1,15 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Cookies from "js-cookie";
+import { cookies } from "next/headers";
 interface Props {
   menu: string;
   isLoggedIn: boolean;
   setMenu: React.Dispatch<React.SetStateAction<string>>;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const Navbar = ({ isLoggedIn, setMenu, menu }: Props) => {
+const Navbar = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
   return (
     <div className="w-full h-20 p-2 px-8  hidden md:flex justify-between items-center">
       <Image
@@ -46,13 +49,23 @@ const Navbar = ({ isLoggedIn, setMenu, menu }: Props) => {
             >
               LEADERBOARD
             </div>
-            <div
+            <Link
+              href="/submission"
               className={`cursor-pointer ${
                 menu === "hints" && "text-[#777373]"
               }`}
               onClick={() => setMenu("hints")}
             >
               HINTS
+            </Link>
+            <div
+              className={`cursor-pointer `}
+              onClick={() => {
+                Cookies.remove("jwtToken");
+                setIsLoggedIn(false);
+              }}
+            >
+              LOGOUT
             </div>
           </>
         )}

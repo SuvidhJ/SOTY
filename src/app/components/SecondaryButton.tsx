@@ -6,7 +6,7 @@ interface Props {
 const SecondaryButton = ({ children, onClickHandler }: Props) => {
   return (
     <div
-      className="w-fit px-12 py-4 rounded-full text-3xl font-semibold shadow-md  active:scale-95 transition-all duration-100 ease-linear cursor-pointer select-none"
+      className="w-fit px-12 py-4 rounded-full text-3xl font-semibold shadow-md  active:scale-95 transition-all duration-100 ease-linear cursor-pointer select-none relative z-20"
       style={{
         background: "linear-gradient(to bottom,#CD6AFF ,#7E94FF)",
       }}

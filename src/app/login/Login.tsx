@@ -1,15 +1,51 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import SecondaryButton from "@/app/components/SecondaryButton";
+import axios from "axios";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 interface Props {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const Login = ({ setIsLoggedIn }: Props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const handleLogin = () => {
-    setIsLoggedIn(true);
+  const [error, setError] = useState(false);
+  useEffect(() => {
+    const storedToken = Cookies.get("jwtToken");
+    if (storedToken && storedToken != "") {
+      setIsLoggedIn(true);
+    }
+  }, []);
+  const handleLogin = async () => {
+    const formData = {
+      username,
+      password,
+    };
+    try {
+      const response = await axios.post(
+        "https://mfc-hunt-soty-be.vercel.app/auth/login",
+        formData
+      );
+      if (response.data.token) {
+        document.cookie = "jwtToken=" + response.data.token;
+        toast.success("Login Successfull", {
+          autoClose: 3000,
+          theme: "dark",
+        });
+        localStorage.setItem("teamId", response.data.user._id);
+      }
+      setIsLoggedIn(true);
+      setError(false);
+    } catch (error) {
+      console.log(error);
+      toast.error("Invalid Username or Password", {
+        autoClose: 3000,
+        theme: "dark",
+      });
+      setError(true);
+    }
   };
   return (
     <div className="--login-wrapper w-full h-screen flex items-center">

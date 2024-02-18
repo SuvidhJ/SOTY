@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+
 const Hero = () => {
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center">
