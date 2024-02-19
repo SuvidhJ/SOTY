@@ -22,7 +22,7 @@ const Navbar = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
       <div className="--list-items flex gap-10 text-2xl font-semibold tracking-wide ">
         {isLoggedIn && (
           <div
-            className={`cursor-pointer ${menu === "home" && "text-[#777373]"}`}
+            className={`cursor-pointer ${menu === "home" && "text-purple-400"}`}
             onClick={() => setMenu("home")}
           >
             HOME
@@ -34,7 +34,7 @@ const Navbar = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
           </div>
         )}
         <div
-          className={`cursor-pointer ${menu === "faq" && "text-[#777373]"}`}
+          className={`cursor-pointer ${menu === "faq" && "text-purple-400"}`}
           onClick={() => setMenu("faq")}
         >
           FAQs
@@ -43,21 +43,20 @@ const Navbar = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
           <>
             <div
               className={`cursor-pointer ${
-                menu === "leaderboard" && "text-[#777373]"
+                menu === "leaderboard" && "text-purple-400"
               }`}
               onClick={() => setMenu("leaderboard")}
             >
               LEADERBOARD
             </div>
-            <Link
-              href="/submission"
+            <div
               className={`cursor-pointer ${
-                menu === "hints" && "text-[#777373]"
+                menu === "hints" && "text-purple-400"
               }`}
               onClick={() => setMenu("hints")}
             >
               HINTS
-            </Link>
+            </div>
             <div
               className={`cursor-pointer `}
               onClick={() => {

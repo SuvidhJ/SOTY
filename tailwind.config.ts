@@ -16,6 +16,9 @@ const config: Config = {
       fontFamily: {
         monsterrat: "Montserrat",
       },
+      colors: {
+        bg_purple: "#400a51",
+      },
     },
   },
   plugins: [],

@@ -5,7 +5,7 @@ interface Props {
 }
 const NavWrapper = ({ children }: Props) => {
   return (
-    <div className="w-full fixed top-0 left-0 z-[100] backdrop-blur-sm">
+    <div className="w-full fixed top-0 left-0 z-[100] backdrop-blur-md">
       {children}
     </div>
   );

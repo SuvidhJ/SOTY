@@ -31,7 +31,7 @@ const MobileNav = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
       />
       <motion.div
         className={`--list-items gap-4 fixed top-16 right-6 text-lg md:text-2xl font-semibold tracking-wide h-fit bg-black border-[1px] rounded-xl ${
-          showMenu ? "flex flex-col p-2" : "hidden"
+          showMenu ? "flex flex-col p-4" : "hidden"
         } `}
         initial={{ y: -20, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
@@ -40,7 +40,7 @@ const MobileNav = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
         {isLoggedIn && (
           <div
             className={`cursor-pointer ${
-              menu === "home" && "bg-[#77737380] rounded-lg px-2 py-[1px]"
+              menu === "home" && "bg-[#77737380] rounded-lg px-4 py-[1px]"
             }`}
             onClick={() => {
               setMenu("home");
