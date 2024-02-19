@@ -45,6 +45,7 @@ export default function Submission({
       }
       console.log(response.data);
     } catch (error) {
+      toast.error("Incorrect Input or Error");
       console.log(error);
     }
   };
@@ -52,15 +53,15 @@ export default function Submission({
 
   return (
     <div className="w-full h-fit flex justify-center items-center py-12">
-      <div className="--riddle-container w-[80%] h-full flex flex-col justify-start items-center gap-12">
+      <div className="--riddle-container w-[90%] md:w-[80%] h-full flex flex-col justify-start items-center gap-12">
         <PrimaryButton>SCAN</PrimaryButton>
         <textarea
           name="riddleAnswer"
-          className="submission-box w-[80%] min-h-[70vh] rounded-2xl bg-[rgba(255,255,255,0.3)] p-6 border-2 border-white outline-none text-xl"
+          className="submission-box w-full md:w-[80%] min-h-[30vh] md:min-h-[70vh] rounded-2xl bg-[rgba(255,255,255,0.3)] p-6 border-2 border-white outline-none text-xl"
           placeholder="Write your answer here..."
           onChange={(e) => setAnswer(e.target.value)}
         ></textarea>
-        <div className="btns flex justify-between w-[80%]">
+        <div className="btns flex justify-center md:justify-between w-[80%] scale-75">
           <PrimaryButton
             onClickHandler={() => {
               setMenu("home");
