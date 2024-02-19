@@ -4,6 +4,7 @@ import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 interface Props {
   question: string;
   points: number;
@@ -36,7 +37,12 @@ export default function Submission({
           },
         }
       );
-      console.log(response);
+      if (response.data.message === "Correct answer!") {
+        toast.success("Correct Answer");
+      } else {
+        toast.success("Incorrect Answer");
+      }
+      console.log(response.data);
     } catch (error) {
       console.log(error);
     }

@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Cookies from "js-cookie";
-import { cookies } from "next/headers";
+import { toast } from "react-toastify";
 interface Props {
   menu: string;
   isLoggedIn: boolean;
@@ -62,6 +62,7 @@ const Navbar = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
               className={`cursor-pointer `}
               onClick={() => {
                 Cookies.remove("jwtToken");
+                toast.success("Logged out successfully");
                 setIsLoggedIn(false);
               }}
             >
