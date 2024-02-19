@@ -2,13 +2,13 @@ import React from "react";
 import GlowBox from "../components/GlowBox";
 const About = () => {
   return (
-    <div className="w-[80%] mx-auto h-screen flex justify-center items-center">
+    <div className="w-[90%] md:w-[80%] mx-auto h-fit md:h-screen flex justify-center items-center">
       <GlowBox>
         <div className="--content ">
-          <div className="--heading-main text-white text-6xl font-bold text-center">
+          <div className="--heading-main text-white text-4xl md:text-6xl font-bold text-center">
             About The Event
           </div>
-          <div className="--description mt-12 leading-relaxed tracking-wide ">
+          <div className="--description mt-12 text-sm md:text-base md:leading-relaxed tracking-wide text-justify">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
             aspernatur veritatis animi quo magnam dolorum, quaerat eligendi
             eveniet sint quae quasi dolor perferendis eos voluptas soluta

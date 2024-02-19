@@ -5,7 +5,7 @@ import FAQBox from "../components/FAQbox";
 const FAQs = () => {
   return (
     <div className="w-full h-fit flex justify-center items-center py-12">
-      <div className="--faq-container w-[80%] h-full flex flex-col justify-start items-center gap-12">
+      <div className="--faq-container w-[90%] md:w-[80%] h-full flex flex-col justify-start items-center gap-6 md:gap-12">
         <PrimaryButton>FAQs</PrimaryButton>
         {faqData.map((faq: any, i: number) => (
           <FAQBox question={faq.question} answer={faq.answer} key={i} />

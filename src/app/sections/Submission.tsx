@@ -39,6 +39,7 @@ export default function Submission({
       );
       if (response.data.message === "Correct answer!") {
         toast.success("Correct Answer");
+        setMenu("home");
       } else {
         toast.success("Incorrect Answer");
       }

@@ -10,8 +10,10 @@ const FAQBox = ({ question, answer }: Props) => {
     <div className="w-full">
       <GlowBox>
         <div className="--content flex flex-col justify-center items-start">
-          <div className="--faq-question text-2xl font-bold">Q. {question}</div>
-          <div className="--faq-answer mt-12 leading-relaxed tracking-wide ">
+          <div className="--faq-question text-lg md:text-2xl font-bold">
+            Q. {question}
+          </div>
+          <div className="--faq-answer text-sm md:text-base mt-12 md:leading-relaxed tracking-wide ">
             Ans. {answer}
           </div>
         </div>

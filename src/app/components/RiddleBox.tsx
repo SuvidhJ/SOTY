@@ -39,7 +39,7 @@ const RiddleBox = ({
           <div className="--riddle-description mt-12 leading-relaxed tracking-wide ">
             {riddle}
           </div>
-          <div className="w-[60%] riddle-info flex justify-between">
+          <div className="w-full md:w-[60%] riddle-info flex flex-col md:flex-row justify-between text-center md:text-left">
             <p className="text-red-400 font-medium">
               Difficulty Level : {difficulty.toUpperCase()}
             </p>

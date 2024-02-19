@@ -6,7 +6,7 @@ interface Props {
 const PrimaryButton = ({ children, onClickHandler }: Props) => {
   return (
     <div
-      className="w-fit px-12 py-4 rounded-full text-3xl font-semibold shadow-md"
+      className="w-fit px-12 py-4 rounded-full text-3xl font-semibold shadow-md scale-75 md:scale-100"
       style={{ background: "linear-gradient(to right,#AA00FF ,#3D00A6)" }}
       onClick={() => {
         onClickHandler && onClickHandler();
