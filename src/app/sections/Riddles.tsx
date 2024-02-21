@@ -3,6 +3,7 @@ import PrimaryButton from "../components/PrimaryButton";
 import RiddleBox from "../components/RiddleBox";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 interface RiddleData {
   user_id: string;
   question: string;
@@ -20,11 +21,13 @@ interface Props {
 }
 const Riddles = ({ setQuestion, setPoints, setMenu, setDifficulty }: Props) => {
   const [riddleData, setRiddleData] = useState<RiddleData[]>([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     (async () => {
       const token = Cookies.get("jwtToken");
       const id = localStorage.getItem("teamId");
       try {
+        setLoading(true);
         const response = await axios.get(
           `https://mfc-hunt-soty-be.vercel.app/questions/all/${id}`,
           {
@@ -34,8 +37,9 @@ const Riddles = ({ setQuestion, setPoints, setMenu, setDifficulty }: Props) => {
           }
         );
         setRiddleData(response.data);
+        setLoading(false);
       } catch (error) {
-        console.log(error);
+        toast.error("Can't load riddles, Login Again!");
       }
     })();
   }, []);
@@ -43,6 +47,11 @@ const Riddles = ({ setQuestion, setPoints, setMenu, setDifficulty }: Props) => {
     <div className="w-full h-fit flex justify-center items-center py-12">
       <div className="--riddle-container w-[90%] md:w-[80%] h-full flex flex-col justify-start items-center gap-8 md:gap-12">
         <PrimaryButton>Riddles</PrimaryButton>
+        {loading && (
+          <p className="text-3xl text-white font-medium text-center">
+            Loading Riddles...
+          </p>
+        )}
         {riddleData.map((riddle: any, i: number) => (
           <RiddleBox
             riddle={riddle.question}

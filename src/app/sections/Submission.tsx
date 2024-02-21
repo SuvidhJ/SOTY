@@ -21,6 +21,7 @@ export default function Submission({
   setMenu,
   difficultyLevel,
 }: Props) {
+  const [mutex, setMutex] = useState(false);
   const submitRiddle = async () => {
     try {
       const token = Cookies.get("jwtToken");
@@ -31,6 +32,7 @@ export default function Submission({
         points,
         difficultyLevel,
       };
+      setMutex(true);
       const response = await axios.post(
         `https://mfc-hunt-soty-be.vercel.app/questions/${id}`,
         data,
@@ -40,6 +42,7 @@ export default function Submission({
           },
         }
       );
+      setMutex(false);
       if (response.data.message === "Correct answer!") {
         toast.success("Correct Answer");
         setMenu("home");
@@ -50,6 +53,7 @@ export default function Submission({
     } catch (error) {
       toast.error("Incorrect Input or Error");
       console.log(error);
+      setMutex(false);
     }
   };
   const [answer, setAnswer] = useState("");
@@ -85,9 +89,13 @@ export default function Submission({
           >
             BACK
           </PrimaryButton>
-          <SecondaryButton onClickHandler={submitRiddle}>
-            SUBMIT
-          </SecondaryButton>
+          {mutex ? (
+            <p className="text-3xl text-white font-medium">Submitting...</p>
+          ) : (
+            <SecondaryButton onClickHandler={submitRiddle}>
+              SUBMIT
+            </SecondaryButton>
+          )}
         </div>
       </div>
     </div>
