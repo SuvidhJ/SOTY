@@ -53,8 +53,11 @@ export default function Submission({
     }
   };
   const [answer, setAnswer] = useState("");
+  const [checker, setChecker] = useState("");
   const onNewScanResult = (decodedText: any, decodedResult: any) => {
     console.log(decodedText, decodedResult);
+    setAnswer(decodedText);
+    setChecker(decodedResult);
   };
 
   return (
@@ -67,6 +70,8 @@ export default function Submission({
           disableFlip={false}
           qrCodeSuccessCallback={onNewScanResult}
         />
+        {answer}
+        {checker}
         <textarea
           name="riddleAnswer"
           className="submission-box w-full md:w-[80%] min-h-[30vh] md:min-h-[70vh] rounded-2xl bg-[rgba(255,255,255,0.3)] p-6 border-2 border-white outline-none text-xl"
