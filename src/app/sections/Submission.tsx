@@ -1,10 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { Html5QrcodeScanner } from "html5-qrcode";
+import QRCodePlugin from "../components/QRCodePlugin";
+const qrcodeRegionId = "html5qr-code-full-region";
 interface Props {
   question: string;
   points: number;
@@ -50,11 +53,20 @@ export default function Submission({
     }
   };
   const [answer, setAnswer] = useState("");
+  const onNewScanResult = (decodedText: any, decodedResult: any) => {
+    console.log(decodedText, decodedResult);
+  };
 
   return (
     <div className="w-full h-fit flex justify-center items-center py-12">
       <div className="--riddle-container w-[90%] md:w-[80%] h-full flex flex-col justify-start items-center gap-12">
         <PrimaryButton>SCAN</PrimaryButton>
+        <QRCodePlugin
+          fps={10}
+          qrbox={250}
+          disableFlip={false}
+          qrCodeSuccessCallback={onNewScanResult}
+        />
         <textarea
           name="riddleAnswer"
           className="submission-box w-full md:w-[80%] min-h-[30vh] md:min-h-[70vh] rounded-2xl bg-[rgba(255,255,255,0.3)] p-6 border-2 border-white outline-none text-xl"

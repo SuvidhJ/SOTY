@@ -21,3 +21,9 @@ body::-webkit-scrollbar-thumb {
   background-color: #9e00ff;
   outline: 1px solid rgb(43, 43, 43);
 }
+#html5qr-code-full-region {
+  background-color: #fff;
+  border-radius: 20px;
+  color: #282c34;
+  font-size: 12pt;
+}
