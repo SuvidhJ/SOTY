@@ -70,13 +70,12 @@ export default function Submission({
           disableFlip={false}
           qrCodeSuccessCallback={onNewScanResult}
         />
-        {answer}
-        {checker}
         <textarea
           name="riddleAnswer"
           className="submission-box w-full md:w-[80%] min-h-[30vh] md:min-h-[70vh] rounded-2xl bg-[rgba(255,255,255,0.3)] p-6 border-2 border-white outline-none text-xl"
           placeholder="Write your answer here..."
           onChange={(e) => setAnswer(e.target.value)}
+          value={answer}
         ></textarea>
         <div className="btns flex justify-center md:justify-between w-[80%] scale-75">
           <PrimaryButton
