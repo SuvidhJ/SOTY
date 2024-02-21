@@ -49,14 +49,14 @@ const Navbar = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
             >
               LEADERBOARD
             </div>
-            <div
+            {/* <div
               className={`cursor-pointer ${
                 menu === "hints" && "text-purple-400"
               }`}
               onClick={() => setMenu("hints")}
             >
               HINTS
-            </div>
+            </div> */}
             <div
               className={`cursor-pointer `}
               onClick={() => {

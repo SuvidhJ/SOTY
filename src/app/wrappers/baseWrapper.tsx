@@ -7,7 +7,10 @@ interface Props {
 export default function BaseWrapper({ children }: Props) {
   return (
     <>
-      <div className="w-full overflow-x-hidden bg-bg_purple text-white font-monsterrat">
+      <div
+        className="w-full overflow-x-hidden  text-white font-monsterrat"
+        style={{ background: "/images/background.jpg" }}
+      >
         {children}
       </div>
       <ToastContainer />

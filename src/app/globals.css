@@ -27,3 +27,7 @@ body::-webkit-scrollbar-thumb {
   color: #282c34;
   font-size: 12pt;
 }
+body {
+  background-image: url("/images/background.jpg");
+  background-size: 100%;
+}

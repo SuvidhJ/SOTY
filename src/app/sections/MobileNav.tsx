@@ -86,7 +86,7 @@ const MobileNav = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
             >
               LEADERBOARD
             </div>
-            <div
+            {/* <div
               className={`cursor-pointer ${
                 menu === "hints" && "bg-[#77737380] rounded-lg px-2 py-[1px]"
               }`}
@@ -96,7 +96,7 @@ const MobileNav = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
               }}
             >
               HINTS
-            </div>
+            </div> */}
             <div
               className={`cursor-pointer `}
               onClick={() => {
