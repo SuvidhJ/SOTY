@@ -22,26 +22,29 @@ interface Props {
 const Riddles = ({ setQuestion, setPoints, setMenu, setDifficulty }: Props) => {
   const [riddleData, setRiddleData] = useState<RiddleData[]>([]);
   const [loading, setLoading] = useState(false);
+  const getDiffQue = async (diff: string) => {
+    const token = Cookies.get("jwtToken");
+    const id = localStorage.getItem("teamId");
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `https://mfc-hunt-soty-be.vercel.app/questions/${id}?difficultyLevel=${diff}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setRiddleData((prevData) => [...prevData, response.data]);
+      setLoading(false);
+    } catch (error) {
+      toast.error("Can't load riddles, Login Again!");
+    }
+  };
   useEffect(() => {
-    (async () => {
-      const token = Cookies.get("jwtToken");
-      const id = localStorage.getItem("teamId");
-      try {
-        setLoading(true);
-        const response = await axios.get(
-          `https://mfc-hunt-soty-be.vercel.app/questions/all/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setRiddleData(response.data);
-        setLoading(false);
-      } catch (error) {
-        toast.error("Can't load riddles, Login Again!");
-      }
-    })();
+    getDiffQue("easy");
+    getDiffQue("medium");
+    getDiffQue("hard");
   }, []);
   return (
     <div className="w-full h-fit flex justify-center items-center py-12">
