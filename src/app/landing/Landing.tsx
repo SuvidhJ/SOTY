@@ -9,8 +9,13 @@ import Submission from "../sections/Submission";
 interface Props {
   selectedMenu: string;
   setMenu: React.Dispatch<React.SetStateAction<string>>;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export default function Landing({ selectedMenu = "home", setMenu }: Props) {
+export default function Landing({
+  selectedMenu = "home",
+  setMenu,
+  setIsLoggedIn,
+}: Props) {
   const [points, setPoints] = useState(0);
   const [question, setQuestion] = useState("");
   const [difficulty, setDifficulty] = useState("");
@@ -26,6 +31,7 @@ export default function Landing({ selectedMenu = "home", setMenu }: Props) {
             setPoints={setPoints}
             setMenu={setMenu}
             setDifficulty={setDifficulty}
+            setIsLoggedIn={setIsLoggedIn}
           />
         </>
       )}

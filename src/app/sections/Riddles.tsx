@@ -18,10 +18,18 @@ interface Props {
   setPoints: React.Dispatch<React.SetStateAction<number>>;
   setMenu?: React.Dispatch<React.SetStateAction<string>>;
   setDifficulty: React.Dispatch<React.SetStateAction<string>>;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const Riddles = ({ setQuestion, setPoints, setMenu, setDifficulty }: Props) => {
+const Riddles = ({
+  setQuestion,
+  setPoints,
+  setMenu,
+  setDifficulty,
+  setIsLoggedIn,
+}: Props) => {
   const [riddleData, setRiddleData] = useState<RiddleData[]>([]);
   const [loading, setLoading] = useState(false);
+  const [errorLoadingRiddles, setErrorLoadingRiddles] = useState(false);
   const getDiffQue = async (diff: string) => {
     const token = Cookies.get("jwtToken");
     const id = localStorage.getItem("teamId");
@@ -38,9 +46,18 @@ const Riddles = ({ setQuestion, setPoints, setMenu, setDifficulty }: Props) => {
       setRiddleData((prevData) => [...prevData, response.data]);
       setLoading(false);
     } catch (error) {
-      toast.error("Can't load riddles, Login Again!");
+      setErrorLoadingRiddles(true);
     }
   };
+  useEffect(() => {
+    if (errorLoadingRiddles) {
+      Cookies.remove("jwtToken");
+      toast.error("Can't load riddles, Login Again!");
+
+      toast.error("Multiple Logins detected");
+      setIsLoggedIn(false);
+    }
+  }, [errorLoadingRiddles]);
   useEffect(() => {
     getDiffQue("easy");
     getDiffQue("medium");
