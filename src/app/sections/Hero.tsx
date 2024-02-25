@@ -9,14 +9,14 @@ const Hero = () => {
         alt="Scavenger Hunt"
         width={600}
         height={600}
-        className="w-[80%] md:w-[40%]"
+        className="w-[80%] md:w-[65%] lg:w-[40%]"
       />
       <Image
         src="/images/banner.png"
         alt="Scavenger Hunt"
         width={500}
         height={500}
-        className="w-[50%] md:w-[25%] md:-mt-12"
+        className="w-[65%] md:w-[40%] lg:w-[28%] -mt-6 md:-mt-12"
       />
     </div>
   );

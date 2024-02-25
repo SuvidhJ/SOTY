@@ -22,11 +22,15 @@ body::-webkit-scrollbar-thumb {
   outline: 1px solid rgb(43, 43, 43);
 }
 #html5qr-code-full-region {
-  background-color: #fff;
   border-radius: 20px;
-  color: #282c34;
+  padding: 15px !important;
+  background: linear-gradient(135deg, #61ff00, #bff5ae);
+  color: #000000;
   font-size: 12pt;
+  filter: invert(1);
+  border: 2px solid #5bda0d !important;
 }
+
 body {
   background-image: url("/images/background.jpg");
   background-size: 100%;

@@ -76,7 +76,7 @@ export default function Submission({
         />
         <textarea
           name="riddleAnswer"
-          className="submission-box w-full md:w-[80%] min-h-[30vh] md:min-h-[70vh] rounded-2xl bg-[rgba(255,255,255,0.3)] p-6 border-2 border-white outline-none text-xl"
+          className="submission-box w-full md:w-[40%] min-h-[20vh] md:min-h-[20vh] rounded-2xl bg-[rgba(255,255,255,0.3)] p-6 border-2 border-white outline-none text-xl"
           placeholder="Write your answer here..."
           onChange={(e) => setAnswer(e.target.value)}
           value={answer}

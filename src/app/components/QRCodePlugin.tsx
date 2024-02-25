@@ -10,9 +10,8 @@ interface Props {
   verbose?: boolean;
   qrCodeSuccessCallback: any;
 }
-// Creates the configuration object for Html5QrcodeScanner.
 const createConfig = (props: Props) => {
-  let config = { fps: 0, qrbox: 300, aspectRatio: 1, disableFlip: false };
+  let config = { fps: 0, qrbox: 350, aspectRatio: 1, disableFlip: false };
   if (props.fps) {
     config.fps = props.fps;
   }
@@ -30,10 +29,8 @@ const createConfig = (props: Props) => {
 
 const QRCodePlugin = (props: Props) => {
   useEffect(() => {
-    // when component mounts
     const config = createConfig(props);
     const verbose = props.verbose === true;
-    // Suceess callback is required.
     if (!props.qrCodeSuccessCallback) {
       throw "qrCodeSuccessCallback is required callback.";
     }
@@ -46,7 +43,6 @@ const QRCodePlugin = (props: Props) => {
       console.log("Error");
     });
 
-    // cleanup function when component will unmount
     return () => {
       html5QrcodeScanner.clear().catch((error) => {
         console.error("Failed to clear html5QrcodeScanner. ", error);

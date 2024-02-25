@@ -4,11 +4,11 @@ const About = () => {
   return (
     <div className="w-[90%] md:w-[80%] mx-auto h-fit md:h-screen flex justify-center items-center">
       <GlowBox>
-        <div className="--content ">
-          <div className="--heading-main text-white text-4xl md:text-6xl font-bold text-center">
+        <div className="--content">
+          <div className="--heading-main text-white text-[1.9rem] md:text-6xl font-bold text-center text-nowrap">
             About The Event
           </div>
-          <div className="--description mt-12 text-sm md:text-base md:leading-relaxed tracking-wide text-justify">
+          <div className="--description mt-6 md:mt-12 text-sm md:text-base md:leading-relaxed tracking-wide text-justify">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
             aspernatur veritatis animi quo magnam dolorum, quaerat eligendi
             eveniet sint quae quasi dolor perferendis eos voluptas soluta
@@ -26,14 +26,7 @@ const About = () => {
             Placeat magni odit tenetur eveniet consectetur illo delectus
             reprehenderit aperiam, deserunt esse corporis architecto provident
             ullam earum repellendus laudantium, qui molestiae optio rerum
-            doloribus ipsum nostrum aliquam. Eius architecto non, perspiciatis,
-            consectetur reprehenderit voluptas explicabo, voluptatum sint iure
-            impedit recusandae minima ea! Enim, cum. Eum ea est, excepturi totam
-            numquam delectus alias quaerat in ipsum quos mollitia accusamus
-            suscipit nisi aliquam sapiente, magnam obcaecati officia iste quasi
-            dignissimos soluta tempore inventore vero nostrum? Omnis explicabo
-            nobis hic quod culpa tempore libero, magnam neque nesciunt
-            voluptatem ratione, inventore alias aliquid.
+            doloribus ipsum nostrum aliquam.
           </div>
         </div>
       </GlowBox>
