@@ -5,7 +5,7 @@ import SecondaryButton from "../components/SecondaryButton";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-
+import { useRouter } from "next/navigation";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const showPerPage = 20;
@@ -20,6 +20,7 @@ export default function Admin() {
   const [isEditing, setIsEditing] = useState(-1);
   const [changedValue, setChangedValue] = useState<number | null>(null);
   const [changedUsername, setChangedUsername] = useState("");
+  const router = useRouter();
   const handleNextPage = () => {
     if (page + 1 < leaderboardData.length / showPerPage) setPage(page + 1);
   };
@@ -29,13 +30,21 @@ export default function Admin() {
     }
   };
   useEffect(() => {
+    const token = Cookies.get("jwtToken");
+    if (!token || token === "") {
+      router.push("/");
+    }
     (async () => {
-      setLoading(true);
-      const response = await axios.get(
-        "https://mfc-hunt-soty-be.vercel.app/users/allusers"
-      );
-      setLeaderboardData(response.data);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          "https://mfc-hunt-soty-be.vercel.app/users/allusers"
+        );
+        setLeaderboardData(response.data);
+        setLoading(false);
+      } catch (error) {
+        toast.error("Error loading data!");
+      }
     })();
   }, []);
   const handleSave = async () => {
