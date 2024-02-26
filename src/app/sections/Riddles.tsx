@@ -52,9 +52,15 @@ const Riddles = ({
   useEffect(() => {
     if (errorLoadingRiddles) {
       Cookies.remove("jwtToken");
-      toast.error("Can't load riddles, Login Again!");
+      toast.error("Can't load riddles, Login Again!", {
+        autoClose: 3000,
+        theme: "dark",
+      });
 
-      toast.error("Multiple Logins detected");
+      toast.error("Multiple Logins detected", {
+        autoClose: 3000,
+        theme: "dark",
+      });
       setIsLoggedIn(false);
     }
   }, [errorLoadingRiddles]);

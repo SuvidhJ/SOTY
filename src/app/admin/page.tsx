@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 const showPerPage = 20;
 interface LeaderboardData {
   username: string;
@@ -29,10 +30,21 @@ export default function Admin() {
       setPage(page - 1);
     }
   };
+  interface CustomJwtPayload extends JwtPayload {
+    isAdmin: boolean;
+  }
   useEffect(() => {
     const token = Cookies.get("jwtToken");
     if (!token || token === "") {
       router.push("/");
+
+      return;
+    }
+    const decodedData: CustomJwtPayload = jwtDecode(token);
+    if (!decodedData?.isAdmin) {
+      router.push("/");
+
+      return;
     }
     (async () => {
       try {
@@ -43,7 +55,10 @@ export default function Admin() {
         setLeaderboardData(response.data);
         setLoading(false);
       } catch (error) {
-        toast.error("Error loading data!");
+        toast.error("Error loading data!", {
+          autoClose: 3000,
+          theme: "dark",
+        });
       }
     })();
   }, []);

@@ -44,14 +44,23 @@ export default function Submission({
       );
       setMutex(false);
       if (response.data.message === "Correct answer!") {
-        toast.success("Correct Answer");
+        toast.success("Correct Answer", {
+          autoClose: 3000,
+          theme: "dark",
+        });
         setMenu("home");
       } else {
-        toast.success("Incorrect Answer");
+        toast.success("Incorrect Answer", {
+          autoClose: 3000,
+          theme: "dark",
+        });
       }
       console.log(response.data);
     } catch (error) {
-      toast.error("Incorrect Input or Error");
+      toast.error("Incorrect Input or Error", {
+        autoClose: 3000,
+        theme: "dark",
+      });
       console.log(error);
       setMutex(false);
     }

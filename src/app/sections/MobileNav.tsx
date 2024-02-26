@@ -101,7 +101,10 @@ const MobileNav = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
               className={`cursor-pointer `}
               onClick={() => {
                 Cookies.remove("jwtToken");
-                toast.success("Logged out successfully");
+                toast.success("Logged out successfully", {
+                  autoClose: 3000,
+                  theme: "dark",
+                });
                 setIsLoggedIn(false);
                 setShowMenu(false);
               }}
