@@ -35,6 +35,7 @@ const Login = ({ setIsLoggedIn }: Props) => {
           theme: "dark",
         });
         localStorage.setItem("teamId", response.data.user._id);
+        localStorage.setItem("teamName", response.data.user.username);
       }
       setIsLoggedIn(true);
       setError(false);

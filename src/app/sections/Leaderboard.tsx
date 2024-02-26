@@ -19,6 +19,7 @@ const Leaderboard = () => {
       setPage(page - 1);
     }
   };
+  const myTeam = localStorage.getItem("teamName");
   useEffect(() => {
     (async () => {
       setLoading(true);
@@ -57,10 +58,14 @@ const Leaderboard = () => {
                     {i < showPerPage * (page + 1) &&
                       i >= showPerPage * page && (
                         <tr
-                          className="--leaderboard-menu-item h-12 md:h-16 text-center text-lg md:text-4xl font-semibold border-b-[1px] border-white"
+                          className={`--leaderboard-menu-item h-12 md:h-16 text-center text-lg md:text-4xl font-semibold border-b-[1px] border-white ${
+                            data.username === myTeam
+                              ? "bg-gradient-to-r from-[#9E00FF] to-[#3D00A6]"
+                              : ""
+                          }`}
                           key={i}
                         >
-                          <td className="">{i + 1}</td>
+                          <td>{i + 1}</td>
                           <td>
                             {data?.username.length > 15
                               ? `${data?.username.slice(0, 15)}...`
