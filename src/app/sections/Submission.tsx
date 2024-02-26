@@ -50,7 +50,7 @@ export default function Submission({
         });
         setMenu("home");
       } else {
-        toast.success("Incorrect Answer", {
+        toast.error("Incorrect Answer", {
           autoClose: 3000,
           theme: "dark",
         });

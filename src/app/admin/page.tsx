@@ -37,7 +37,6 @@ export default function Admin() {
     const token = Cookies.get("jwtToken");
     if (!token || token === "") {
       router.push("/");
-
       return;
     }
     const decodedData: CustomJwtPayload = jwtDecode(token);
