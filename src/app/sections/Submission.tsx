@@ -56,43 +56,99 @@ export default function Submission({
           autoClose: 3000,
           theme: "dark",
         });
+        const response = await canAnswer();
+        if (response.canAnswer) {
+          setIsAnswerable(true);
+          console.log(true);
+        } else {
+          setIsAnswerable(false);
+          console.log(false);
+        }
       }
-      console.log(response.data);
     } catch (error) {
       toast.error("Incorrect Input or Error", {
         className: "custom-bg-error",
         autoClose: 3000,
         theme: "dark",
       });
-      console.log(error);
       setMutex(false);
     }
   };
+  const canAnswer = async () => {
+    const token = Cookies.get("jwtToken");
+    const id = localStorage.getItem("teamId");
+    try {
+      const response = await axios.get(
+        `https://mfc-hunt-soty-be.vercel.app/questions/answeringStatus/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ` + `${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log("Error occured", error);
+    }
+  };
+
   const [answer, setAnswer] = useState("");
   const [checker, setChecker] = useState("");
+  const [isAnswerable, setIsAnswerable] = useState(true);
   const onNewScanResult = (decodedText: any, decodedResult: any) => {
     console.log(decodedText, decodedResult);
     setAnswer(decodedText);
     setChecker(decodedResult);
   };
-
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await canAnswer();
+        if (response.canAnswer) {
+          setIsAnswerable(true);
+          setTimeLeft(0);
+          console.log(true);
+        } else {
+          setIsAnswerable(false);
+          setTimeLeft(response.remainingTime / 1000);
+          console.log(false);
+        }
+      } catch (error) {
+        console.log("Error");
+      }
+    })();
+  }, []);
+  const [timeLeft, setTimeLeft] = useState(0);
   return (
     <div className="w-full h-fit flex justify-center items-center py-12">
       <div className="--riddle-container w-[90%] md:w-[80%] h-full flex flex-col justify-start items-center gap-12">
-        <PrimaryButton>SCAN</PrimaryButton>
-        <QRCodePlugin
-          fps={10}
-          qrbox={250}
-          disableFlip={false}
-          qrCodeSuccessCallback={onNewScanResult}
-        />
-        <textarea
-          name="riddleAnswer"
-          className="submission-box w-full md:w-[40%] min-h-[20vh] md:min-h-[20vh] rounded-2xl bg-[rgba(255,255,255,0.3)] p-6 border-2 border-white outline-none text-xl"
-          placeholder="Write your answer here..."
-          onChange={(e) => setAnswer(e.target.value)}
-          value={answer}
-        ></textarea>
+        {isAnswerable && <PrimaryButton>SCAN</PrimaryButton>}
+        {!isAnswerable && (
+          <div className="text-xl text-center p-2 border-2 border-white rounded-xl bg-red-600 -mt-12">
+            You&apos;ve answered 2 incorrect answers in a row
+            <br />
+            <br />
+            Please wait for {timeLeft} s to Try Again
+          </div>
+        )}
+        {isAnswerable && (
+          <QRCodePlugin
+            fps={10}
+            qrbox={250}
+            disableFlip={false}
+            qrCodeSuccessCallback={onNewScanResult}
+          />
+        )}
+        {isAnswerable && (
+          <textarea
+            name="riddleAnswer"
+            className="submission-box w-full md:w-[40%] min-h-[20vh] md:min-h-[20vh] rounded-2xl bg-[rgba(255,255,255,0.3)] p-6 border-2 border-white outline-none text-xl"
+            placeholder="Write your answer here..."
+            onChange={(e) => setAnswer(e.target.value)}
+            value={answer}
+          ></textarea>
+        )}
         <div className="btns flex justify-center md:justify-between w-[80%] scale-75">
           <PrimaryButton
             onClickHandler={() => {
@@ -104,9 +160,11 @@ export default function Submission({
           {mutex ? (
             <p className="text-3xl text-white font-medium">Submitting...</p>
           ) : (
-            <SecondaryButton onClickHandler={submitRiddle}>
-              SUBMIT
-            </SecondaryButton>
+            isAnswerable && (
+              <SecondaryButton onClickHandler={submitRiddle}>
+                SUBMIT
+              </SecondaryButton>
+            )
           )}
         </div>
       </div>
