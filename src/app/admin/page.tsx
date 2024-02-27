@@ -55,6 +55,7 @@ export default function Admin() {
         setLoading(false);
       } catch (error) {
         toast.error("Error loading data!", {
+          className: "custom-bg-error",
           autoClose: 3000,
           theme: "dark",
         });
@@ -87,12 +88,14 @@ export default function Admin() {
         );
         if (response.data.message == "Access Forbidden: Admin only") {
           toast.error("Only Admins can change scores!", {
+            className: "custom-bg-error",
             autoClose: 3000,
             theme: "dark",
           });
         }
       } catch (error) {
         toast.error("Error updating score", {
+          className: "custom-bg-error",
           autoClose: 3000,
           theme: "dark",
         });

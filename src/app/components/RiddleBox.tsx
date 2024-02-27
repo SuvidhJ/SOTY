@@ -36,15 +36,15 @@ const RiddleBox = ({
     <div className="w-full">
       <GlowBox>
         <div className="--content flex flex-col gap-12 justify-center items-center">
-          <div className="--riddle-description mt-12 leading-relaxed tracking-wide ">
+          <div className="--riddle-description text-lg mt-12 leading-relaxed tracking-wide ">
             {riddle}
           </div>
-          <div className="w-full md:w-[60%] riddle-info flex flex-col md:flex-row justify-between text-center md:text-left">
+          {/* <div className="w-full md:w-[60%] riddle-info flex flex-col md:flex-row justify-between text-center md:text-left">
             <p className="text-red-400 font-medium">
               Difficulty Level : {difficulty.toUpperCase()}
             </p>
             <p className="text-red-400 font-medium">Points : {points}</p>
-          </div>
+          </div> */}
           <SecondaryButton onClickHandler={submitRiddle}>
             Proceed
           </SecondaryButton>

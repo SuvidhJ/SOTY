@@ -31,6 +31,7 @@ const Login = ({ setIsLoggedIn }: Props) => {
       if (response.data.token) {
         document.cookie = "jwtToken=" + response.data.token;
         toast.success("Login Successfull", {
+          className: "custom-bg",
           autoClose: 3000,
           theme: "dark",
         });
@@ -42,6 +43,7 @@ const Login = ({ setIsLoggedIn }: Props) => {
     } catch (error) {
       console.log(error);
       toast.error("Invalid Username or Password", {
+        className: "custom-bg-error",
         autoClose: 3000,
         theme: "dark",
       });

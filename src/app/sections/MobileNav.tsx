@@ -102,6 +102,7 @@ const MobileNav = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
               onClick={() => {
                 Cookies.remove("jwtToken");
                 toast.success("Logged out successfully", {
+                  className: "custom-bg",
                   autoClose: 3000,
                   theme: "dark",
                 });

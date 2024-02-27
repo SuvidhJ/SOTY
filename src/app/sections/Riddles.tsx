@@ -53,11 +53,13 @@ const Riddles = ({
     if (errorLoadingRiddles) {
       Cookies.remove("jwtToken");
       toast.error("Can't load riddles, Login Again!", {
+        className: "custom-bg-error",
         autoClose: 3000,
         theme: "dark",
       });
 
       toast.error("Multiple Logins detected", {
+        className: "custom-bg-error",
         autoClose: 3000,
         theme: "dark",
       });

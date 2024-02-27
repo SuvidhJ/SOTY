@@ -45,12 +45,14 @@ export default function Submission({
       setMutex(false);
       if (response.data.message === "Correct answer!") {
         toast.success("Correct Answer", {
+          className: "custom-bg",
           autoClose: 3000,
           theme: "dark",
         });
         setMenu("home");
       } else {
         toast.error("Incorrect Answer", {
+          className: "custom-bg-error",
           autoClose: 3000,
           theme: "dark",
         });
@@ -58,6 +60,7 @@ export default function Submission({
       console.log(response.data);
     } catch (error) {
       toast.error("Incorrect Input or Error", {
+        className: "custom-bg-error",
         autoClose: 3000,
         theme: "dark",
       });
