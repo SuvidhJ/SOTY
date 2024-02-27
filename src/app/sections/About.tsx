@@ -9,24 +9,21 @@ const About = () => {
             About The Event
           </div>
           <div className="--description mt-6 md:mt-12 text-sm md:text-base md:leading-relaxed tracking-wide text-justify">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
-            aspernatur veritatis animi quo magnam dolorum, quaerat eligendi
-            eveniet sint quae quasi dolor perferendis eos voluptas soluta
-            expedita dicta minus ullam quam suscipit cupiditate enim,
-            praesentium esse. Odio eaque ipsum aspernatur corrupti molestiae
-            aperiam voluptatum! Pariatur nam temporibus repudiandae praesentium
-            molestiae ullam sapiente eum maiores impedit cum dignissimos
-            voluptate, earum dolorem facere quis eveniet amet sunt sequi quasi
-            suscipit consectetur et illum? Mollitia minima voluptas maiores
-            reiciendis obcaecati veniam, eveniet odit ex quidem reprehenderit
-            consectetur consequatur possimus quis culpa laudantium blanditiis
-            sunt voluptatibus, molestiae assumenda. Dolorem, eligendi accusamus
-            exercitationem a mollitia blanditiis repudiandae voluptatem, nulla
-            reprehenderit nisi aspernatur odio accusantium beatae laborum!
-            Placeat magni odit tenetur eveniet consectetur illo delectus
-            reprehenderit aperiam, deserunt esse corporis architecto provident
-            ullam earum repellendus laudantium, qui molestiae optio rerum
-            doloribus ipsum nostrum aliquam.
+            Embark on an exhilarating scavenger hunt filled with thrilling tasks
+            and challenges! A handpicked list of objectives and riddles will
+            propel your team into a race against time. Dive into side games to
+            unlock exclusive powers that might tip the scales in your favor.
+            Only the fastest, smartest, and most strategic team will emerge as
+            the ultimate Scavenger of the Year!
+            <br />
+            <br />
+            This event - being one of the flagship events of Mozilla Firefox
+            Club, VIT Vellore, has been one of the most successful events
+            organized during Riviera 2023.
+            <br />
+            <br />
+            <b>Warning:</b> Engaging in unethical practices will result in
+            decrement of points and time penalty will be awarded.
           </div>
         </div>
       </GlowBox>

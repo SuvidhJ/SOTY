@@ -1,38 +1,30 @@
 export const faqData = [
   {
-    question:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam repudiandae voluptates",
+    question: "How to Scan?",
     answer:
-      "hic iusto, fuga laudantium possimus neque doloremque nostrum impedit veniam fugiat vitae quisquam ut tenetur autem rem officiis. Voluptatibus explicabo ipsam magni iusto modi, repellendus odio eos veniam aperiam dignissimos quaerat deserunt? Iste ab delectus eos doloremque earum! Itaque!",
+      "Login > Proceed with riddles > Allow Camera to Scan > Select Camera facing back > Start scanning > Submit",
   },
   {
-    question:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam repudiandae voluptates",
-    answer:
-      "hic iusto, fuga laudantium possimus neque doloremque nostrum impedit veniam fugiat vitae quisquam ut tenetur autem rem officiis. Voluptatibus explicabo ipsam magni iusto modi, repellendus odio eos veniam aperiam dignissimos quaerat deserunt? Iste ab delectus eos doloremque earum! Itaque!",
+    question: "How long will you be logged into the app?",
+    answer: "12 Hours",
   },
   {
-    question:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam repudiandae voluptates",
-    answer:
-      "hic iusto, fuga laudantium possimus neque doloremque nostrum impedit veniam fugiat vitae quisquam ut tenetur autem rem officiis. Voluptatibus explicabo ipsam magni iusto modi, repellendus odio eos veniam aperiam dignissimos quaerat deserunt? Iste ab delectus eos doloremque earum! Itaque!",
+    question: "How long will you be logged into the app?",
+    answer: "How long will you be logged into the app?",
   },
   {
-    question:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam repudiandae voluptates",
+    question: "How many logins at once?",
     answer:
-      "hic iusto, fuga laudantium possimus neque doloremque nostrum impedit veniam fugiat vitae quisquam ut tenetur autem rem officiis. Voluptatibus explicabo ipsam magni iusto modi, repellendus odio eos veniam aperiam dignissimos quaerat deserunt? Iste ab delectus eos doloremque earum! Itaque!",
+      "Single user. Multiple users with the same login is not advised at all",
   },
   {
-    question:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam repudiandae voluptates",
+    question: "Max amount of tries before getting a time penalty?",
     answer:
-      "hic iusto, fuga laudantium possimus neque doloremque nostrum impedit veniam fugiat vitae quisquam ut tenetur autem rem officiis. Voluptatibus explicabo ipsam magni iusto modi, repellendus odio eos veniam aperiam dignissimos quaerat deserunt? Iste ab delectus eos doloremque earum! Itaque!",
+      "Maximum of two wrong scans are permitted before getting a time penalty of 2 minutes",
   },
   {
-    question:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam repudiandae voluptates",
+    question: "What to do if the QR does not scan?",
     answer:
-      "hic iusto, fuga laudantium possimus neque doloremque nostrum impedit veniam fugiat vitae quisquam ut tenetur autem rem officiis. Voluptatibus explicabo ipsam magni iusto modi, repellendus odio eos veniam aperiam dignissimos quaerat deserunt? Iste ab delectus eos doloremque earum! Itaque!",
+      "Go to your GoogleLens and decrypt the QR code, inputting the text received manually",
   },
 ];
