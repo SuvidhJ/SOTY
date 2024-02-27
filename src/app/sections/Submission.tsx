@@ -129,7 +129,9 @@ export default function Submission({
             You&apos;ve answered 2 incorrect answers in a row
             <br />
             <br />
-            Please wait for {Math.trunc(timeLeft)} s to Try Again
+            Please wait for{" "}
+            {timeLeft === 0 ? `2 mins` : `${Math.trunc(timeLeft)}s`} to Try
+            Again
           </div>
         )}
         {isAnswerable && (
