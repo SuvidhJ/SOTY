@@ -31,13 +31,13 @@ const Riddles = ({
   const [loading, setLoading] = useState(false);
   const [errorLoadingRiddles, setErrorLoadingRiddles] = useState(false);
   const [isBan, setIsBan] = useState(false);
+  const [banTimeLeft, setTimeBanLeft] = useState(0);
   const getDiffQue = async (diff: string) => {
     const token = Cookies.get("jwtToken");
     const id = localStorage.getItem("teamId");
-    let response: any;
     try {
       setLoading(true);
-      response = await axios.get(
+      const response = await axios.get(
         `https://mfc-hunt-soty-be.vercel.app/questions/${id}?difficultyLevel=${diff}`,
         {
           headers: {
@@ -47,13 +47,12 @@ const Riddles = ({
       );
       setRiddleData((prevData) => [...prevData, response.data]);
       setLoading(false);
-      if (response.status === 403 && response.data.isBan) {
+      if (response.data.isBan) {
         setIsBan(true);
+        setTimeBanLeft(response.data.remainingTime / 60000);
       }
     } catch (error) {
-      if (response.status !== 403) {
-        setErrorLoadingRiddles(true);
-      }
+      setErrorLoadingRiddles(true);
     }
   };
   useEffect(() => {
@@ -77,30 +76,40 @@ const Riddles = ({
     getDiffQue("medium");
     getDiffQue("hard");
   }, []);
+  setTimeout(() => {
+    if (banTimeLeft > 1) {
+      setTimeBanLeft(banTimeLeft - 1);
+    }
+  }, 60000);
   return (
     <div className="w-full h-fit flex justify-center items-center py-12">
       <div className="--riddle-container w-[90%] md:w-[80%] h-full flex flex-col justify-start items-center gap-8 md:gap-12">
-        {isBan && <p>Youre banned</p>}
-        <PrimaryButton>Riddles</PrimaryButton>
+        {isBan && (
+          <div className="text-2xl text-center p-2 px-6 border-2 border-white rounded-xl bg-red-600 -mt-12">
+            Youre banned, Try again after {Math.trunc(banTimeLeft)} minutes
+          </div>
+        )}
+        {!isBan && <PrimaryButton>Riddles</PrimaryButton>}
         {loading && (
           <p className="text-3xl text-white font-medium text-center">
             Loading Riddles...
           </p>
         )}
-        {riddleData.map((riddle: any, i: number) => (
-          <RiddleBox
-            riddle={riddle.question}
-            // redirect={riddle.redirect}
-            difficulty={riddle.difficultyLevel}
-            points={riddle.points}
-            riddleId={riddle._id}
-            key={i}
-            setQuestion={setQuestion}
-            setPoints={setPoints}
-            setMenu={setMenu}
-            setDifficulty={setDifficulty}
-          />
-        ))}
+        {!isBan &&
+          riddleData.map((riddle: any, i: number) => (
+            <RiddleBox
+              riddle={riddle.question}
+              // redirect={riddle.redirect}
+              difficulty={riddle.difficultyLevel}
+              points={riddle.points}
+              riddleId={riddle._id}
+              key={i}
+              setQuestion={setQuestion}
+              setPoints={setPoints}
+              setMenu={setMenu}
+              setDifficulty={setDifficulty}
+            />
+          ))}
       </div>
     </div>
   );
