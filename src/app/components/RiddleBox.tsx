@@ -32,6 +32,9 @@ const RiddleBox = ({
     setDifficulty(difficulty);
     setMenu && setMenu("submission");
   };
+  if (riddle.length === 0) {
+    return;
+  }
   return (
     <div className="w-full">
       <GlowBox>

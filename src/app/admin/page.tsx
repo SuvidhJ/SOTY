@@ -13,6 +13,7 @@ const showPerPage = 20;
 interface LeaderboardData {
   username: string;
   score: number | null;
+  isBan: boolean;
 }
 export default function Admin() {
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardData[]>([]);
@@ -135,7 +136,9 @@ export default function Admin() {
                         i >= showPerPage * page && (
                           <tbody>
                             <tr
-                              className="--leaderboard-menu-item h-12 md:h-12 text-center text-lg md:text-2xl font-semibold border-b-[1px] border-white"
+                              className={`--leaderboard-menu-item h-12 md:h-12 text-center text-lg md:text-2xl font-semibold border-b-[1px] border-white ${
+                                data.isBan ? "bg-red-600" : ""
+                              }`}
                               key={i}
                             >
                               <td className="">{i + 1}</td>
@@ -187,6 +190,15 @@ export default function Admin() {
                                     onClick={() => setIsEditing(i)}
                                   >
                                     Edit
+                                  </button>
+                                )}
+                                {data?.isBan ? (
+                                  <button className="text-black bg-white px-4 py-1 rounded-full text-sm ml-2">
+                                    Unban
+                                  </button>
+                                ) : (
+                                  <button className="text-black bg-white px-4 py-1 rounded-full text-sm ml-2">
+                                    Ban
                                   </button>
                                 )}
                               </td>

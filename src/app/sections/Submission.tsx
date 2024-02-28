@@ -143,8 +143,12 @@ export default function Submission({
             <br />
             <br />
             Please wait for{" "}
-            {timeLeft === 0 ? `2 mins` : `${Math.trunc(timeLeft)}s`} to Try
-            Again
+            {timeLeft === 0
+              ? "Please refresh the page to continue..."
+              : timeLeft === null
+              ? `2 mins`
+              : `${Math.trunc(timeLeft)}s`}{" "}
+            to Try Again
           </div>
         )}
         {isAnswerable && !loading && (

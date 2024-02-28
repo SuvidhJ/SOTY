@@ -86,7 +86,11 @@ const Riddles = ({
       <div className="--riddle-container w-[90%] md:w-[80%] h-full flex flex-col justify-start items-center gap-8 md:gap-12">
         {isBan && (
           <div className="text-2xl text-center p-2 px-6 border-2 border-white rounded-xl bg-red-600 -mt-12">
-            Youre banned, Try again after {Math.trunc(banTimeLeft)} minutes
+            {banTimeLeft === 0
+              ? "Refresh the page please..."
+              : `Youre banned, Try again after ${Math.trunc(
+                  banTimeLeft
+                )} minutes`}
           </div>
         )}
         {!isBan && <PrimaryButton>Riddles</PrimaryButton>}
