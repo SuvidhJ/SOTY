@@ -32,7 +32,7 @@ const RiddleBox = ({
     setDifficulty(difficulty);
     setMenu && setMenu("submission");
   };
-  if (riddle.length === 0) {
+  if (!riddle || !riddle?.length) {
     return;
   }
   return (

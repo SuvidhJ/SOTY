@@ -192,7 +192,7 @@ export default function Admin() {
                                     Edit
                                   </button>
                                 )}
-                                {data?.isBan ? (
+                                {/* {data?.isBan ? (
                                   <button className="text-black bg-white px-4 py-1 rounded-full text-sm ml-2">
                                     Unban
                                   </button>
@@ -200,7 +200,7 @@ export default function Admin() {
                                   <button className="text-black bg-white px-4 py-1 rounded-full text-sm ml-2">
                                     Ban
                                   </button>
-                                )}
+                                )} */}
                               </td>
                             </tr>
                           </tbody>
