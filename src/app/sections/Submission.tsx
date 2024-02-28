@@ -78,6 +78,7 @@ export default function Submission({
     const token = Cookies.get("jwtToken");
     const id = localStorage.getItem("teamId");
     try {
+      setLoading(true);
       const response = await axios.get(
         `https://mfc-hunt-soty-be.vercel.app/questions/answeringStatus/${id}`,
         {
@@ -86,6 +87,7 @@ export default function Submission({
           },
         }
       );
+      setLoading(false);
       console.log(response.data);
       return response.data;
     } catch (error) {
@@ -96,6 +98,7 @@ export default function Submission({
   const [answer, setAnswer] = useState("");
   const [checker, setChecker] = useState("");
   const [isAnswerable, setIsAnswerable] = useState(true);
+  const [loading, setLoading] = useState(false);
   const onNewScanResult = (decodedText: any, decodedResult: any) => {
     console.log(decodedText, decodedResult);
     setAnswer(decodedText);
@@ -119,13 +122,23 @@ export default function Submission({
       }
     })();
   }, []);
+  setTimeout(() => {
+    if (timeLeft > 1) {
+      setTimeLeft(timeLeft - 1);
+    }
+  }, 1000);
   const [timeLeft, setTimeLeft] = useState(0);
   return (
     <div className="w-full h-fit flex justify-center items-center py-12">
       <div className="--riddle-container w-[90%] md:w-[80%] h-full flex flex-col justify-start items-center gap-12">
-        {isAnswerable && <PrimaryButton>SCAN</PrimaryButton>}
+        {loading && (
+          <p className="text-3xl text-white font-medium text-center">
+            Loading Scanner...
+          </p>
+        )}
+        {isAnswerable && !loading && <PrimaryButton>SCAN</PrimaryButton>}
         {!isAnswerable && (
-          <div className="text-xl text-center p-2 border-2 border-white rounded-xl bg-red-600 -mt-12">
+          <div className="text-xl text-center p-2 border-2 border-white rounded-xl bg-red-600 -mt-10">
             You&apos;ve answered 2 incorrect answers in a row
             <br />
             <br />
@@ -134,7 +147,7 @@ export default function Submission({
             Again
           </div>
         )}
-        {isAnswerable && (
+        {isAnswerable && !loading && (
           <QRCodePlugin
             fps={10}
             qrbox={250}
@@ -142,7 +155,7 @@ export default function Submission({
             qrCodeSuccessCallback={onNewScanResult}
           />
         )}
-        {isAnswerable && (
+        {isAnswerable && !loading && (
           <textarea
             name="riddleAnswer"
             className="submission-box w-full md:w-[40%] min-h-[20vh] md:min-h-[20vh] rounded-2xl bg-[rgba(255,255,255,0.3)] p-6 border-2 border-white outline-none text-xl"

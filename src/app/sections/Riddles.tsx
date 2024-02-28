@@ -30,12 +30,14 @@ const Riddles = ({
   const [riddleData, setRiddleData] = useState<RiddleData[]>([]);
   const [loading, setLoading] = useState(false);
   const [errorLoadingRiddles, setErrorLoadingRiddles] = useState(false);
+  const [isBan, setIsBan] = useState(false);
   const getDiffQue = async (diff: string) => {
     const token = Cookies.get("jwtToken");
     const id = localStorage.getItem("teamId");
+    let response: any;
     try {
       setLoading(true);
-      const response = await axios.get(
+      response = await axios.get(
         `https://mfc-hunt-soty-be.vercel.app/questions/${id}?difficultyLevel=${diff}`,
         {
           headers: {
@@ -45,8 +47,13 @@ const Riddles = ({
       );
       setRiddleData((prevData) => [...prevData, response.data]);
       setLoading(false);
+      if (response.status === 403 && response.data.isBan) {
+        setIsBan(true);
+      }
     } catch (error) {
-      setErrorLoadingRiddles(true);
+      if (response.status !== 403) {
+        setErrorLoadingRiddles(true);
+      }
     }
   };
   useEffect(() => {
@@ -57,7 +64,6 @@ const Riddles = ({
         autoClose: 3000,
         theme: "dark",
       });
-
       toast.error("Multiple Logins detected", {
         className: "custom-bg-error",
         autoClose: 3000,
@@ -74,6 +80,7 @@ const Riddles = ({
   return (
     <div className="w-full h-fit flex justify-center items-center py-12">
       <div className="--riddle-container w-[90%] md:w-[80%] h-full flex flex-col justify-start items-center gap-8 md:gap-12">
+        {isBan && <p>Youre banned</p>}
         <PrimaryButton>Riddles</PrimaryButton>
         {loading && (
           <p className="text-3xl text-white font-medium text-center">
