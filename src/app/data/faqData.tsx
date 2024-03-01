@@ -9,8 +9,8 @@ export const faqData = [
     answer: "12 Hours",
   },
   {
-    question: "How long will you be logged into the app?",
-    answer: "How long will you be logged into the app?",
+    question: "Whom to share the login credentials with?",
+    answer: "Only with your teammates.",
   },
   {
     question: "How many logins at once?",

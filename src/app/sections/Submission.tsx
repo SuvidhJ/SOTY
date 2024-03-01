@@ -136,7 +136,7 @@ export default function Submission({
             Loading Scanner...
           </p>
         )}
-        {isAnswerable && !loading && <PrimaryButton>SCAN</PrimaryButton>}
+        {isAnswerable && !loading && <PrimaryButton>SCANNER</PrimaryButton>}
         {!isAnswerable && timeLeft !== null && (
           <div className="text-xl text-center p-2 border-2 border-white rounded-xl bg-red-600 -mt-10">
             You&apos;ve answered 2 incorrect answers in a row
