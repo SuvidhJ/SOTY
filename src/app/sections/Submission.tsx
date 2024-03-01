@@ -88,7 +88,6 @@ export default function Submission({
         }
       );
       setLoading(false);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log("Error occured", error);
@@ -99,8 +98,9 @@ export default function Submission({
   const [checker, setChecker] = useState("");
   const [isAnswerable, setIsAnswerable] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(0);
+
   const onNewScanResult = (decodedText: any, decodedResult: any) => {
-    console.log(decodedText, decodedResult);
     setAnswer(decodedText);
     setChecker(decodedResult);
   };
@@ -110,12 +110,10 @@ export default function Submission({
         const response = await canAnswer();
         if (response.canAnswer) {
           setIsAnswerable(true);
-          setTimeLeft(0);
-          console.log(true);
+          setTimeLeft(-1);
         } else {
           setIsAnswerable(false);
           setTimeLeft(response.remainingTime / 1000);
-          console.log(false);
         }
       } catch (error) {
         console.log("Error");
@@ -127,7 +125,6 @@ export default function Submission({
       setTimeLeft(timeLeft - 1);
     }
   }, 1000);
-  const [timeLeft, setTimeLeft] = useState(0);
   return (
     <div className="w-full h-fit flex justify-center items-center py-12">
       <div className="--riddle-container w-[90%] md:w-[80%] h-full flex flex-col justify-start items-center gap-12">
@@ -136,19 +133,19 @@ export default function Submission({
             Loading Scanner...
           </p>
         )}
-        {isAnswerable && !loading && <PrimaryButton>SCANNER</PrimaryButton>}
+        {isAnswerable && !loading && (
+          <div className="text-xl md:text-3xl font-semibold shadow-md scale-75 md:scale-100">
+            SCAN
+          </div>
+        )}
         {!isAnswerable && timeLeft !== null && (
           <div className="text-xl text-center p-2 border-2 border-white rounded-xl bg-red-600 -mt-10">
-            You&apos;ve answered 2 incorrect answers in a row
+            You&apos;ve answered 2 incorrect riddles in a row
             <br />
             <br />
-            Please wait for{" "}
-            {timeLeft === 0
-              ? "Please refresh the page to continue..."
-              : timeLeft === null
-              ? `2 mins`
-              : `${Math.trunc(timeLeft)}s`}{" "}
-            to Try Again
+            Please wait for
+            {timeLeft === -1 ? ` 2 mins` : ` ${Math.trunc(timeLeft)}s`} to Try
+            Again
           </div>
         )}
         {isAnswerable && !loading && (
