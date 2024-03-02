@@ -144,8 +144,8 @@ export default function Submission({
             <br />
             <br />
             Please wait for
-            {timeLeft === -1 ? ` 2 mins` : ` ${Math.trunc(timeLeft)}s`} to Try
-            Again
+            {timeLeft === -1 ? ` 2 mins` : ` ${Math.trunc(timeLeft)}s`} to try
+            again.
           </div>
         )}
         {isAnswerable && !loading && (
