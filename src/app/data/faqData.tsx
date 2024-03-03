@@ -53,6 +53,16 @@ export const faqData = [
     answer: "No, powerups are not available during lunch breaks.",
   },
   {
+    question: "How many powers can be used upon a single team",
+    answer:
+      "1 power-up cannot be implemented more than 3 times on a particular team.",
+  },
+  {
+    question: "Can we ask about the current power-ups of other teams?",
+    answer:
+      "While choosing the attack we won't be telling you the power-up situation of other teams.",
+  },
+  {
     question: "What is the attacking power of “Riddle Redirect”?",
     answer:
       "You can give any of your opponents a riddle to solve, in which they have to reach the nearest game centers to pick their riddles and solve them manually. They have 15 15-minute timers under which they have to take the riddles from the nearest center, solve it, and revert to the nearest helpdesk. If they fail to do so a 50 points reduction will be imposed on the team.Importantly, if you log out during this time, the ban timer will not be counted, and it will persist upon logging back in.",
