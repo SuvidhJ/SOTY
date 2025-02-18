@@ -38,7 +38,7 @@ const Riddles = ({
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://mfc-hunt-soty-be.vercel.app/questions/${id}?difficultyLevel=${diff}`,
+        `https://soty-backend-25.onrender.com/questions/${id}?difficultyLevel=${diff}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
