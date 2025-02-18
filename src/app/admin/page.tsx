@@ -50,7 +50,7 @@ export default function Admin() {
       try {
         setLoading(true);
         const response = await axios.get(
-          "https://mfc-hunt-soty-be.vercel.app/users/allusers"
+          "https://soty-backend-25.onrender.com/users/allusers"
         );
         setLeaderboardData(response.data);
         setLoading(false);
@@ -79,7 +79,7 @@ export default function Admin() {
           newscore: changedValue,
         };
         const response = await axios.put(
-          `https://mfc-hunt-soty-be.vercel.app/users/updatescore`,
+          `https://soty-backend-25.onrender.com/users/updatescore`,
           reqBody,
           {
             headers: {
