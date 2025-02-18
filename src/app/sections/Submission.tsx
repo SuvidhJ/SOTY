@@ -34,7 +34,7 @@ export default function Submission({
       };
       setMutex(true);
       const response = await axios.post(
-        `https://mfc-hunt-soty-be.vercel.app/questions/${id}`,
+        `https://soty-backend-25.onrender.com/questions/${id}`,
         data,
         {
           headers: {
