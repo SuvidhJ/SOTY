@@ -80,7 +80,7 @@ export default function Submission({
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://mfc-hunt-soty-be.vercel.app/questions/answeringStatus/${id}`,
+        `https://soty-backend-25.onrender.com/questions/answeringStatus/${id}`,
         {
           headers: {
             Authorization: `Bearer ` + `${token}`,
