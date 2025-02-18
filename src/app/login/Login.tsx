@@ -25,7 +25,7 @@ const Login = ({ setIsLoggedIn }: Props) => {
     };
     try {
       const response = await axios.post(
-        "https://mfc-hunt-soty-be.vercel.app/auth/login",
+        "https://soty-backend-25.onrender.com/auth/login",
         formData
       );
       if (response.data.token) {
