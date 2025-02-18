@@ -38,7 +38,7 @@ const Riddles = ({
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://soty-backend-25.onrender.com/questions/${userId}`,
+        `https://soty-backend-25.onrender.com/questions/${Id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
