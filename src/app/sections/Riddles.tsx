@@ -34,7 +34,7 @@ const Riddles = ({
   const [banTimeLeft, setTimeBanLeft] = useState(0);
     const getDiffQue = async (diff: string) => {
     const token = Cookies.get("jwtToken");
-    const id = localStorage.getItem("teamId");
+    const id = Cookies.getItem("teamId");
     try {
       setLoading(true);
       const response = await axios.get(
