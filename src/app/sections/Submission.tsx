@@ -23,7 +23,7 @@ export default function Submission({ question, points, setMenu, difficultyLevel 
   const [loading, setLoading] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
 
-  const token = Cookies.get("jwtToken"); // Consider moving to localStorage
+  const token = localStorage.getItem("refreshToken"); // Consider moving to localStorage
   const teamId = localStorage.getItem("teamId");
 
   const canAnswer = useCallback(async () => {
