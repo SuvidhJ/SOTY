@@ -34,7 +34,9 @@ const Riddles = ({
   const [banTimeLeft, setTimeBanLeft] = useState(0);
     const getDiffQue = async (diff: string) => {
     const token = Cookies.get("refreshToken");
+    console.log(token);
     const id = Cookies.get("teamId");
+    console.log(id)
     try {
       setLoading(true);
       const response = await axios.get(
