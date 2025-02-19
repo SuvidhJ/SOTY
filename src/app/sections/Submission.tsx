@@ -34,7 +34,7 @@ export default function Submission({
       };
       setMutex(true);
       const response = await axios.post(
-        `http://localhost:5001/questions/${id}`,
+        `https://soty-backend-25.vercel.app/questions/${id}`,
         data,
         {
           headers: {
@@ -80,7 +80,7 @@ export default function Submission({
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:5001/questions/answeringStatus/${id}`,
+        `https://soty-backend-25.vercel.app/questions/answeringStatus/${id}`,
         {
           headers: {
             Authorization: `Bearer ` + `${token}`,
