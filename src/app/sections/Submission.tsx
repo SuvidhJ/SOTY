@@ -23,7 +23,7 @@ export default function Submission({ question, points, setMenu, difficultyLevel 
   const [loading, setLoading] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
 
-  const token = localStorage.getItem("refreshToken"); // Consider moving to localStorage
+  const token = localStorage.getItem("refreshToken"); 
   const teamId = localStorage.getItem("teamId");
 
   const canAnswer = useCallback(async () => {
@@ -102,7 +102,7 @@ export default function Submission({ question, points, setMenu, difficultyLevel 
         )}
         {isAnswerable && (
           <textarea
-            className="w-full md:w-[40%] min-h-[20vh] p-6 border-2 border-white rounded-2xl bg-opacity-30"
+            className="w-full md:w-[40%] min-h-[20vh] p-6 border-2 border-white text-black rounded-2xl bg-opacity-30"
             placeholder="Write your answer here..."
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
