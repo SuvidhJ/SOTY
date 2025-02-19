@@ -1,13 +1,14 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import { Html5QrcodeScanner } from "html5-qrcode";
 import QRCodePlugin from "../components/QRCodePlugin";
-const qrcodeRegionId = "html5qr-code-full-region";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://soty-backend-25.vercel.app";
+
 interface Props {
   question: string;
   points: number;
@@ -15,173 +16,101 @@ interface Props {
   setMenu: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function Submission({
-  question,
-  points,
-  setMenu,
-  difficultyLevel,
-}: Props) {
+export default function Submission({ question, points, setMenu, difficultyLevel }: Props) {
   const [mutex, setMutex] = useState(false);
-  const submitRiddle = async () => {
-    try {
-      const token = Cookies.get("jwtToken");
-      const id = localStorage.getItem("teamId");
-      const data = {
-        question,
-        answer,
-        points,
-        difficultyLevel,
-      };
-      setMutex(true);
-      const response = await axios.post(
-        `https://soty-backend-25.vercel.app/questions/${id}`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ` + `${token}`,
-          },
-        }
-      );
-      setMutex(false);
-      if (response.data.message === "Correct answer!") {
-        toast.success("Correct Answer", {
-          className: "custom-bg",
-          autoClose: 3000,
-          theme: "dark",
-        });
-        setMenu("home");
-      } else {
-        toast.error("Incorrect Answer", {
-          className: "custom-bg-error",
-          autoClose: 3000,
-          theme: "dark",
-        });
-        const response = await canAnswer();
-        if (response.canAnswer) {
-          setIsAnswerable(true);
-          console.log(true);
-        } else {
-          setIsAnswerable(false);
-          console.log(false);
-        }
-      }
-    } catch (error) {
-      toast.error("Incorrect Input or Error", {
-        className: "custom-bg-error",
-        autoClose: 3000,
-        theme: "dark",
-      });
-      setMutex(false);
-    }
-  };
-  const canAnswer = async () => {
-    const token = Cookies.get("jwtToken");
-    const id = localStorage.getItem("teamId");
-    try {
-      setLoading(true);
-      const response = await axios.get(
-        `https://soty-backend-25.vercel.app/questions/answeringStatus/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ` + `${token}`,
-          },
-        }
-      );
-      setLoading(false);
-      return response.data;
-    } catch (error) {
-      console.log("Error occured", error);
-    }
-  };
-
   const [answer, setAnswer] = useState("");
-  const [checker, setChecker] = useState("");
   const [isAnswerable, setIsAnswerable] = useState(true);
   const [loading, setLoading] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
 
-  const onNewScanResult = (decodedText: any, decodedResult: any) => {
-    setAnswer(decodedText);
-    setChecker(decodedResult);
-  };
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await canAnswer();
-        if (response.canAnswer) {
-          setIsAnswerable(true);
-          setTimeLeft(-1);
-        } else {
-          setIsAnswerable(false);
-          setTimeLeft(response.remainingTime / 1000);
-        }
-      } catch (error) {
-        console.log("Error");
-      }
-    })();
-  }, []);
-  setTimeout(() => {
-    if (timeLeft > 1) {
-      setTimeLeft(timeLeft - 1);
+  const token = Cookies.get("jwtToken"); // Consider moving to localStorage
+  const teamId = localStorage.getItem("teamId");
+
+  const canAnswer = useCallback(async () => {
+    if (!teamId || !token) return;
+    try {
+      setLoading(true);
+      const response = await axios.get(`${API_BASE_URL}/questions/answeringStatus/${teamId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setLoading(false);
+      setIsAnswerable(response.data.canAnswer);
+      setTimeLeft(response.data.remainingTime / 1000 || 0);
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching answering status:", error);
     }
-  }, 1000);
+  }, [teamId, token]);
+
+  const submitRiddle = useCallback(async () => {
+    if (!answer.trim()) {
+      toast.error("Answer cannot be empty", { theme: "dark", autoClose: 3000 });
+      return;
+    }
+    if (!teamId || !token) {
+      toast.error("Unauthorized", { theme: "dark", autoClose: 3000 });
+      return;
+    }
+
+    try {
+      setMutex(true);
+      const response = await axios.post(
+        `${API_BASE_URL}/questions/${teamId}`,
+        { question, answer, points, difficultyLevel },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setMutex(false);
+
+      if (response.data.message === "Correct answer!") {
+        toast.success("Correct Answer", { theme: "dark", autoClose: 3000 });
+        setMenu("home");
+      } else {
+        toast.error("Incorrect Answer", { theme: "dark", autoClose: 3000 });
+        await canAnswer();
+      }
+    } catch (error) {
+      toast.error("Error submitting answer", { theme: "dark", autoClose: 3000 });
+      setMutex(false);
+    }
+  }, [answer, teamId, token, question, points, difficultyLevel, setMenu, canAnswer]);
+
+  useEffect(() => {
+    canAnswer();
+  }, [canAnswer]);
+
+  useEffect(() => {
+    if (!isAnswerable && timeLeft > 0) {
+      const interval = setInterval(() => {
+        setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [isAnswerable, timeLeft]);
+
   return (
     <div className="w-full h-fit flex justify-center items-center py-12">
-      <div className="--riddle-container w-[90%] md:w-[80%] h-full flex flex-col justify-start items-center gap-12">
-        {loading && (
-          <p className="text-3xl text-white font-medium text-center">
-            Loading Scanner...
-          </p>
-        )}
-        {isAnswerable && !loading && (
-          <div className="text-xl md:text-3xl font-semibold shadow-md scale-75 md:scale-100">
-            SCAN
-          </div>
-        )}
-        {!isAnswerable && timeLeft !== null && (
-          <div className="text-xl text-center p-2 border-2 border-white rounded-xl bg-red-600 -mt-10">
-            You&apos;ve answered 2 incorrect riddles in a row
-            <br />
-            <br />
-            Please wait for
-            {timeLeft === -1 ? ` 2 mins` : ` ${Math.trunc(timeLeft)}s`} to try
-            again.
+      <div className="w-[90%] md:w-[80%] flex flex-col items-center gap-12">
+        {loading && <p className="text-3xl text-white font-medium">Loading Scanner...</p>}
+        {isAnswerable && !loading && <div className="text-3xl font-semibold">SCAN</div>}
+        {!isAnswerable && (
+          <div className="text-xl text-center p-2 border-2 border-white rounded-xl bg-red-600">
+            Youve answered incorrectly too many times. Please wait {timeLeft}s to try again.
           </div>
         )}
         {isAnswerable && !loading && (
-          <QRCodePlugin
-            fps={10}
-            qrbox={250}
-            disableFlip={false}
-            qrCodeSuccessCallback={onNewScanResult}
+          <QRCodePlugin fps={10} qrbox={250} disableFlip={false} qrCodeSuccessCallback={setAnswer} />
+        )}
+        {isAnswerable && (
+          <textarea
+            className="w-full md:w-[40%] min-h-[20vh] p-6 border-2 border-white rounded-2xl bg-opacity-30"
+            placeholder="Write your answer here..."
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
           />
         )}
-        {isAnswerable && !loading && (
-          <textarea
-            name="riddleAnswer"
-            className="submission-box w-full md:w-[40%] min-h-[20vh] md:min-h-[20vh] rounded-2xl bg-[rgba(255,255,255,0.3)] p-6 border-2 border-white outline-none text-xl"
-            placeholder="Write your answer here..."
-            onChange={(e) => setAnswer(e.target.value)}
-            value={answer}
-          ></textarea>
-        )}
-        <div className="btns flex justify-center md:justify-between w-[80%] scale-75">
-          <PrimaryButton
-            onClickHandler={() => {
-              setMenu("home");
-            }}
-          >
-            BACK
-          </PrimaryButton>
-          {mutex ? (
-            <p className="text-3xl text-white font-medium">Submitting...</p>
-          ) : (
-            isAnswerable && (
-              <SecondaryButton onClickHandler={submitRiddle}>
-                SUBMIT
-              </SecondaryButton>
-            )
-          )}
+        <div className="flex w-[80%]">
+          <PrimaryButton onClickHandler={() => setMenu("home")}>BACK</PrimaryButton>
+          {mutex ? <p className="text-3xl text-white">Submitting...</p> : <SecondaryButton onClickHandler={submitRiddle}>SUBMIT</SecondaryButton>}
         </div>
       </div>
     </div>
