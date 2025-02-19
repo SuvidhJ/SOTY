@@ -24,7 +24,7 @@ const Leaderboard = () => {
     (async () => {
       setLoading(true);
       const response = await axios.get(
-        "http://localhost:5001/users/allusers"
+        "https://soty-backend-25.vercel.app/users/allusers"
       );
       setLeaderboardData(response.data);
       setLoading(false);
