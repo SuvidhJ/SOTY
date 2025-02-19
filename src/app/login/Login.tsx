@@ -33,7 +33,7 @@ const Login = ({ setIsLoggedIn }: Props) => {
       console.log(response)
       // console.log(Cookies.get("token"));
       // console.log(document.cookie)
-      if (response.data.accessToken) {
+      if (response.data.refreshToken) {
         // document.cookie = "jwtToken=" + response.data.token;
         toast.success("Login Successfull", {
           className: "custom-bg",
