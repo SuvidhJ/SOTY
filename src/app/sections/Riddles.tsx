@@ -4,6 +4,7 @@ import RiddleBox from "../components/RiddleBox";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import axiosInstance from "@/axios";
 interface RiddleData {
   user_id: string;
   question: string;
@@ -33,14 +34,13 @@ const Riddles = ({
   const [isBan, setIsBan] = useState(false);
   const [banTimeLeft, setTimeBanLeft] = useState(0);
     const getDiffQue = async (diff: string) => {
-    const token = Cookies.get("refreshToken");
-    console.log(token);
-    const id = Cookies.get("teamId");
-    console.log(id)
     try {
       setLoading(true);
-      const response = await axios.get(
-        `https://soty-backend-25.onrender.com/questions/${id}?difficultyLevel=${diff}`,
+      const id = localStorage.getItem("teamId")
+      const token = localStorage.getItem("token")
+      console.log(token, id)
+      const response = await axiosInstance.get(
+        `questions/${id}?difficultyLevel=${diff}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
