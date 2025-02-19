@@ -32,7 +32,7 @@ const Riddles = ({
   const [errorLoadingRiddles, setErrorLoadingRiddles] = useState(false);
   const [isBan, setIsBan] = useState(false);
   const [banTimeLeft, setTimeBanLeft] = useState(0);
-  const getDiffQue = async (diff: string) => {
+    const getDiffQue = async (diff: string) => {
     const token = Cookies.get("jwtToken");
     const id = localStorage.getItem("teamId");
     try {
@@ -45,13 +45,21 @@ const Riddles = ({
           },
         }
       );
-      setRiddleData((prevData) => [...prevData, response.data]);
+      
+      if (Array.isArray(response.data)) {
+        setRiddleData((prevData) => [...prevData, ...response.data]);
+      } else {
+        setRiddleData((prevData) => [...prevData, response.data]);
+      }
+      
       setLoading(false);
+  
       if (response.data.isBan) {
         setIsBan(true);
         setTimeBanLeft(response.data.remainingTime / 60000);
       }
     } catch (error) {
+      console.error("Error fetching riddles:", error);
       setErrorLoadingRiddles(true);
     }
   };
@@ -71,16 +79,24 @@ const Riddles = ({
       setIsLoggedIn(false);
     }
   }, [errorLoadingRiddles]);
+useEffect(() => {
+  const fetchQuestions = async () => {
+    await getDiffQue("easy");
+    await getDiffQue("medium");
+    await getDiffQue("hard");
+  };
+  fetchQuestions();
+}, []);
+
   useEffect(() => {
-    getDiffQue("easy");
-    getDiffQue("medium");
-    getDiffQue("hard");
-  }, []);
-  setTimeout(() => {
-    if (banTimeLeft > 1) {
-      setTimeBanLeft(banTimeLeft - 1);
-    }
-  }, 60000);
+  if (banTimeLeft > 1) {
+    const timer = setTimeout(() => {
+      setTimeBanLeft((prev) => prev - 1);
+    }, 60000);
+    return () => clearTimeout(timer);
+  }
+}, [banTimeLeft]);
+
   return (
     <div className="w-full h-fit flex justify-center items-center py-12">
       <div className="--riddle-container w-[90%] md:w-[80%] h-full flex flex-col justify-start items-center gap-8 md:gap-12">
