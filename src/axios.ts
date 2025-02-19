@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const BASE_URL = "http://localhost:5001/"
+const BASE_URL = "https://soty-backend-25.vercel.app/"
 
 const axiosInstance = axios.create({
     baseURL: BASE_URL,
