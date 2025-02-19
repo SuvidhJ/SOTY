@@ -34,7 +34,7 @@ export default function Submission({
       };
       setMutex(true);
       const response = await axios.post(
-        `https://soty-backend-25.onrender.com/questions/${id}`,
+        `http://localhost:5001/questions/${id}`,
         data,
         {
           headers: {
@@ -80,7 +80,7 @@ export default function Submission({
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://soty-backend-25.onrender.com/questions/answeringStatus/${id}`,
+        `http://localhost:5001/questions/answeringStatus/${id}`,
         {
           headers: {
             Authorization: `Bearer ` + `${token}`,

@@ -5,6 +5,7 @@ import SecondaryButton from "@/app/components/SecondaryButton";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
+import axiosInstance from "@/axios";
 interface Props {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -12,34 +13,39 @@ const Login = ({ setIsLoggedIn }: Props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
-  useEffect(() => {
-    const storedToken = Cookies.get("jwtToken");
-    if (storedToken && storedToken != "") {
-      setIsLoggedIn(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedToken = Cookies.get("jwtToken");
+  //   if (storedToken && storedToken != "") {
+  //     setIsLoggedIn(true);
+  //   }
+  // }, []);
   const handleLogin = async () => {
     const formData = {
       username,
       password,
     };
+    console.log(formData)
     try {
-      const response = await axios.post(
-        "https://soty-backend-25.onrender.com/auth/login",
+      const response = await axiosInstance.post(
+        "auth/login",
         formData
       );
-      if (response.data.token) {
-        document.cookie = "jwtToken=" + response.data.token;
+      console.log(response)
+      // console.log(Cookies.get("token"));
+      // console.log(document.cookie)
+      if (response.data.accessToken) {
+        // document.cookie = "jwtToken=" + response.data.token;
         toast.success("Login Successfull", {
           className: "custom-bg",
           autoClose: 3000,
           theme: "dark",
         });
+        localStorage.setItem("token", response.data.accessToken);
         localStorage.setItem("teamId", response.data.user._id);
-        localStorage.setItem("teamName", response.data.user.username);
+        localStorage.setItem("refreshToken", response.data.refreshToken);
+        setIsLoggedIn(true);
+        setError(false);
       }
-      setIsLoggedIn(true);
-      setError(false);
     } catch (error) {
       console.log(error);
       toast.error("Invalid Username or Password", {

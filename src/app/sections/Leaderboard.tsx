@@ -24,7 +24,7 @@ const Leaderboard = () => {
     (async () => {
       setLoading(true);
       const response = await axios.get(
-        "https://soty-backend-25.onrender.com/users/allusers"
+        "http://localhost:5001/users/allusers"
       );
       setLeaderboardData(response.data);
       setLoading(false);
