@@ -33,7 +33,7 @@ const Riddles = ({
   const [isBan, setIsBan] = useState(false);
   const [banTimeLeft, setTimeBanLeft] = useState(0);
     const getDiffQue = async (diff: string) => {
-    const token = Cookies.get("jwtToken");
+    const token = Cookies.get("refreshToken");
     const id = Cookies.getItem("teamId");
     try {
       setLoading(true);
