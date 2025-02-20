@@ -48,9 +48,12 @@ const Navbar = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
         autoClose: 3000,
         theme: "dark",
       });
-
-      
-      router.push("/login"); 
+        
+      setIsLoggedIn(false);
+      setMenu("home");
+      setTimeout(() => {
+        router.push("/login");
+      }, 500);
     } catch (error) {
       toast.error("Logout failed. Please try again!", { theme: "dark" });
       console.error("Logout error:", error);
