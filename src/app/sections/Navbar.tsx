@@ -28,7 +28,16 @@ const handleLogout = async () => {
     }
 
 
-    const response = await axiosInstance.post("/auth/logout", { username });
+    const response = await axiosInstance.post(
+    "/auth/logout",
+    { username },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
 
     if (response.status === 200) {
 
