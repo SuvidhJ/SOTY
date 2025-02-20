@@ -3,8 +3,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import axiosInstance from "@/axios";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 interface Props {
   menu: string;
@@ -18,6 +19,7 @@ const MobileNav = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
   const menuRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
 
+  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -34,27 +36,69 @@ const MobileNav = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showMenu]);
 
-  const handleLogout = () => {
-    const confirmLogout = window.confirm("Are you sure you want to log out?");
-    if (!confirmLogout) return;
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const username = localStorage.getItem("username");
 
-    localStorage.removeItem("token");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("username");
+      if (!token || !username) {
+        toast.error("You are not logged in!", { theme: "dark" });
+        return;
+      }
 
-    toast.success("Logged out successfully", {
-      className: "custom-bg",
-      autoClose: 3000,
-      theme: "dark",
-    });
+      const response = await axiosInstance.post(
+        "auth/logout",
+        { username },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    setIsLoggedIn(false);
-    setMenu("home");
-    setShowMenu(false);
+      if (response.status === 200) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("username");
 
-    setTimeout(() => {
-      router.push("/login");
-    }, 500);
+        toast.success("Logged out successfully", {
+          className: "custom-bg",
+          autoClose: 3000,
+          theme: "dark",
+        });
+
+        setIsLoggedIn(false);
+        setMenu("home");
+        setShowMenu(false);
+        
+      }
+    } catch (error: any) {
+      console.error("Logout error:", {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data,
+      });
+
+      let errorMessage = "Logout failed. Please try again!";
+      if (error.response) {
+        switch (error.response.status) {
+          case 401:
+            errorMessage = "Unauthorized. Please log in again.";
+            break;
+          case 403:
+            errorMessage = "Forbidden. You don't have permission to log out.";
+            break;
+          case 404:
+            errorMessage = "Logout endpoint not found.";
+            break;
+          case 500:
+            errorMessage = "Server error. Please try again later.";
+            break;
+        }
+      }
+      toast.error(errorMessage, { theme: "dark" });
+    }
   };
 
   return (
@@ -97,7 +141,7 @@ const MobileNav = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
         {isLoggedIn && (
           <div
             className={`cursor-pointer ${
-              menu === "home" && "bg-gray-700 rounded-lg px-4 py-2"
+              menu === "home" && "text-purple-400"
             }`}
             onClick={() => {
               setMenu("home");
@@ -121,7 +165,7 @@ const MobileNav = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
         )}
         <div
           className={`cursor-pointer ${
-            menu === "faq" && "bg-gray-700 rounded-lg px-4 py-2"
+            menu === "faq" && "text-purple-400"
           }`}
           onClick={() => {
             setMenu("faq");
@@ -134,7 +178,7 @@ const MobileNav = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
           <>
             <div
               className={`cursor-pointer ${
-                menu === "leaderboard" && "bg-gray-700 rounded-lg px-4 py-2"
+                menu === "leaderboard" && "text-purple-400"
               }`}
               onClick={() => {
                 setMenu("leaderboard");
