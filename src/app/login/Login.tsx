@@ -54,7 +54,7 @@ const Login = ({ setIsLoggedIn }: Props) => {
     <div className="--login-wrapper w-full h-screen flex items-center relative">
       <div className="w-full h-[80%] mt-20 flex flex-col gap-10 justify-center items-center relative z-[50]">
         <Image src="/images/logo.png" alt="Scavenger Hunt" width={600} height={600} className="w-[80%] md:w-[30%]" />
-        <div className="--login-container w-[90%] md:w-[80%] h-fit rounded-3xl relative overflow-hidden px-6 md:px-12 py-12">
+        <div className="--login-container w-[90%] md:w-[80%] h-fit rounded-3xl relative overflow-y-scroll px-6 md:px-12 py-12">
           <div className="--inner-shadow border-[12px] border-white w-full h-full  blur-lg absolute top-0 left-0"></div>
           <div className="inner-bg bg-[#984bb27c] w-[60%] md:w-[70%] h-[70%]  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 blur-[60px]  md:blur-[100px] rounded-full"></div>
           <div className="--content flex h-full flex-col gap-4 justify-center items-center relative z-[10]">
