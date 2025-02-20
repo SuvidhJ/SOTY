@@ -58,7 +58,7 @@ const Login = ({ setIsLoggedIn }: Props) => {
           <div className="--content flex h-full flex-col gap-4 justify-center items-center relative z-[10]">
             <div className="--heading text-center text-3xl md:text-5xl font-semibold uppercase">Enter your details</div>
             <div className="--sub-heading text-[#FF7B7B] text-llg text-center md:text-2xl  font-medium">( Contact MFC team for this )</div>
-            <form onSubmit={(e) => {e.preventDefault(); handleLogin();}}>
+            <form onSubmit={(e) => {e.preventDefault(); handleLogin();}} className="flex flex-col gap-4 items-center w-full">
               <input
                 type="text"
                 placeholder="Username"
