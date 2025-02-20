@@ -17,7 +17,7 @@ interface Props {
 const Navbar = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
   const router = useRouter(); 
 
-  const handleLogout = async () => {
+const handleLogout = async () => {
   try {
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("username");
@@ -27,17 +27,11 @@ const Navbar = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
       return;
     }
 
-    const response = await axiosInstance.post(
-      "https://soty-backend-25.vercel.app/auth/logout",
-      { username },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+
+    const response = await axiosInstance.post("/auth/logout", { username });
 
     if (response.status === 200) {
+
       localStorage.removeItem("token");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("username");
@@ -55,9 +49,32 @@ const Navbar = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
         router.push("/login");
       }, 500);
     }
-  } catch (error) {
-    toast.error("Logout failed. Please try again!", { theme: "dark" });
-    console.error("Logout error:", error);
+  } catch (error: any) {
+    // More detailed error logging
+    console.error("Logout error:", {
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data,
+    });
+
+    let errorMessage = "Logout failed. Please try again!";
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          errorMessage = "Unauthorized. Please log in again.";
+          break;
+        case 403:
+          errorMessage = "Forbidden. You don't have permission to log out.";
+          break;
+        case 404:
+          errorMessage = "Logout endpoint not found.";
+          break;
+        case 500:
+          errorMessage = "Server error. Please try again later.";
+          break;
+      }
+    }
+    toast.error(errorMessage, { theme: "dark" });
   }
 };
 
