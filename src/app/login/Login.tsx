@@ -29,24 +29,24 @@ const Login = ({ setIsLoggedIn }: Props) => {
       console.log(error);
       if (error.response?.data?.message === "User already loggedIn other device.") {
         toast.error("Already logged in on another device!", { autoClose: 3000, theme: "dark" });
-        setShowForceLogin(true);
+        // setShowForceLogin(true);
       } else {
         toast.error("Invalid Username or Password", { autoClose: 3000, theme: "dark" });
       }
     }
   };
 
-  const handleForceLogout = async () => {
-    try {
-      await axiosInstance.post("auth/logout", { username });
-      toast.success("Previous session logged out!", { autoClose: 3000, theme: "dark" });
-      setShowForceLogin(false);
-      handleLogin();
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to logout previous session", { autoClose: 3000, theme: "dark" });
-    }
-  };
+  // const handleForceLogout = async () => {
+  //   try {
+  //     await axiosInstance.post("auth/logout", { username });
+  //     toast.success("Previous session logged out!", { autoClose: 3000, theme: "dark" });
+  //     setShowForceLogin(false);
+  //     handleLogin();
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error("Failed to logout previous session", { autoClose: 3000, theme: "dark" });
+  //   }
+  // };
 
   return (
     <div className="--login-wrapper w-full h-screen flex items-center relative">
