@@ -64,7 +64,7 @@ const Login = ({ setIsLoggedIn }: Props) => {
                 placeholder="Username"
                 className="bg-[#FFE6D6] border-2 border-[#9E00FF] w-[80%] md:w-[40%] px-2 py-2 md:py-4 md:px-4 rounded-full text-xl md:text-2xl text-center font-semibold text-black outline-none focus:border-4"
                 onChange={(e) => setUsername(e.target.value)}
-              />
+              /><br>
               <input
                 type="password"
                 placeholder="Password"
