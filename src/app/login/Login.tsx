@@ -58,18 +58,20 @@ const Login = ({ setIsLoggedIn }: Props) => {
           <div className="--content flex h-full flex-col gap-4 justify-center items-center relative z-[10]">
             <div className="--heading text-center text-3xl md:text-5xl font-semibold uppercase">Enter your details</div>
             <div className="--sub-heading text-[#FF7B7B] text-llg text-center md:text-2xl  font-medium">( Contact MFC team for this )</div>
-            <input
-              type="text"
-              placeholder="Username"
-              className="bg-[#FFE6D6] border-2 border-[#9E00FF] w-[80%] md:w-[40%] px-2 py-2 md:py-4 md:px-4 rounded-full text-xl md:text-2xl text-center font-semibold text-black outline-none focus:border-4"
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="bg-[#FFE6D6] border-2 border-[#9E00FF] w-[80%] md:w-[40%] px-2 py-2 md:py-4 md:px-4 rounded-full text-xl md:text-2xl text-center font-semibold text-black outline-none focus:border-4"
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <form onSubmit={(e) => {e.preventDefault(); handleLogin();}}>
+              <input
+                type="text"
+                placeholder="Username"
+                className="bg-[#FFE6D6] border-2 border-[#9E00FF] w-[80%] md:w-[40%] px-2 py-2 md:py-4 md:px-4 rounded-full text-xl md:text-2xl text-center font-semibold text-black outline-none focus:border-4"
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                className="bg-[#FFE6D6] border-2 border-[#9E00FF] w-[80%] md:w-[40%] px-2 py-2 md:py-4 md:px-4 rounded-full text-xl md:text-2xl text-center font-semibold text-black outline-none focus:border-4"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </form>
             <SecondaryButton onClickHandler={handleLogin}>Proceed</SecondaryButton>
 
             {showForceLogin && (
