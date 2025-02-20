@@ -29,11 +29,12 @@ const handleLogout = async () => {
 
 
     const response = await axiosInstance.post(
-    "/auth/logout",
+    "auth/logout",
     { username },
     {
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
     }
   );
@@ -59,7 +60,6 @@ const handleLogout = async () => {
       }, 500);
     }
   } catch (error: any) {
-    // More detailed error logging
     console.error("Logout error:", {
       message: error.message,
       status: error.response?.status,
