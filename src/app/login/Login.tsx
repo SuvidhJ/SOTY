@@ -24,7 +24,7 @@ const Login = ({ setIsLoggedIn }: Props) => {
         localStorage.setItem("token", response.data.accessToken);
         localStorage.setItem("refreshToken", response.data.refreshToken);
         localStorage.setItem("username", response.data.username);
-        localStorage.setItem("teamId", response.data.teamId);
+        localStorage.setItem("teamId", response.data.user._id);
         setIsLoggedIn(true);
       }
     } catch (error: any) {
