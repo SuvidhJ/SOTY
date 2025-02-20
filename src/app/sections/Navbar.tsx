@@ -38,6 +38,7 @@ const Navbar = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
       );
 
 
+      if (response.status === 200) {
       localStorage.removeItem("token");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("username");
@@ -47,9 +48,6 @@ const Navbar = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
         autoClose: 3000,
         theme: "dark",
       });
-
-      setIsLoggedIn(false);
-      setMenu("home");
 
       
       router.push("/login"); 
