@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import axios from "axios";
+import axiosInstance from "@/axios";
 import { toast } from "react-toastify";
 
 interface Props {
@@ -27,7 +27,7 @@ const Navbar = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
         return;
       }
 
-      await axios.post(
+      await axiosInstance.post(
         "https://soty-backend-25.vercel.app/auth/logout",
         { username },
         {
