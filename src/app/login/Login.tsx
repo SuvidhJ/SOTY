@@ -23,6 +23,7 @@ const Login = ({ setIsLoggedIn }: Props) => {
         toast.success("Login Successful", { autoClose: 3000, theme: "dark" });
         localStorage.setItem("token", response.data.accessToken);
         localStorage.setItem("refreshToken", response.data.refreshToken);
+        localStorage.setItem("username", response.data.username);
         setIsLoggedIn(true);
       }
     } catch (error: any) {
