@@ -18,27 +18,26 @@ const Navbar = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
   const router = useRouter(); 
 
   const handleLogout = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const username = localStorage.getItem("username");
+  try {
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
 
-      if (!token || !username) {
-        toast.error("You are not logged in!", { theme: "dark" });
-        return;
+    if (!token || !username) {
+      toast.error("You are not logged in!", { theme: "dark" });
+      return;
+    }
+
+    const response = await axiosInstance.post(
+      "https://soty-backend-25.vercel.app/auth/logout",
+      { username },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
+    );
 
-      await axiosInstance.post(
-        "https://soty-backend-25.vercel.app/auth/logout",
-        { username },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-
-      if (response.status === 200) {
+    if (response.status === 200) {
       localStorage.removeItem("token");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("username");
@@ -48,17 +47,20 @@ const Navbar = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
         autoClose: 3000,
         theme: "dark",
       });
-        
+
       setIsLoggedIn(false);
       setMenu("home");
+
       setTimeout(() => {
         router.push("/login");
       }, 500);
-    } catch (error) {
-      toast.error("Logout failed. Please try again!", { theme: "dark" });
-      console.error("Logout error:", error);
     }
-  };
+  } catch (error) {
+    toast.error("Logout failed. Please try again!", { theme: "dark" });
+    console.error("Logout error:", error);
+  }
+};
+
 
   return (
     <div className="w-full h-20 p-2 px-8 hidden md:flex justify-between items-center">
