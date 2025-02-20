@@ -14,13 +14,7 @@ interface LoginResponse {
   refreshToken: string;
 }
 
-interface ApiError {
-  response?: {
-    data?: {
-      message?: string;
-    };
-  };
-}
+
 
 const Login = ({ setIsLoggedIn }: Props) => {
   const [username, setUsername] = useState("");
@@ -58,7 +52,7 @@ const Login = ({ setIsLoggedIn }: Props) => {
 
         setIsLoggedIn(true);
       }
-    } catch (error: ApiError) {
+    } catch (error: any) {
       console.error(error);
       if (error.response?.data?.message === "User already loggedIn other device.") {
         toast.error("Already logged in on another device!", { autoClose: 3000, theme: "dark" });
