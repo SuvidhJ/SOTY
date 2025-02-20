@@ -55,9 +55,6 @@ const handleLogout = async () => {
       setIsLoggedIn(false);
       setMenu("home");
 
-      setTimeout(() => {
-        router.push("/login");
-      }, 500);
     }
   } catch (error: any) {
     console.error("Logout error:", {
