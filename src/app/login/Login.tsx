@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import SecondaryButton from "@/app/components/SecondaryButton";
 import axiosInstance from "@/axios";
@@ -9,15 +9,45 @@ interface Props {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface LoginResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
+interface ApiError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
 const Login = ({ setIsLoggedIn }: Props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showForceLogin, setShowForceLogin] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      setShowForceLogin(false);
+      setIsLoading(false);
+    };
+  }, []);
 
   const handleLogin = async () => {
+    if (isLoading) return;
+    
+    if (!username.trim() || !password.trim()) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    setIsLoading(true);
     const formData = { username, password };
+    
     try {
-      const response = await axiosInstance.post("auth/login", formData);
+      const response = await axiosInstance.post<LoginResponse>("auth/login", formData);
 
       if (response.data.refreshToken) {
         toast.success("Login Successful", { autoClose: 3000, theme: "dark" });
@@ -25,14 +55,16 @@ const Login = ({ setIsLoggedIn }: Props) => {
         localStorage.setItem("refreshToken", response.data.refreshToken);
         setIsLoggedIn(true);
       }
-    } catch (error: any) {
-      console.log(error);
+    } catch (error: ApiError) {
+      console.error(error);
       if (error.response?.data?.message === "User already loggedIn other device.") {
         toast.error("Already logged in on another device!", { autoClose: 3000, theme: "dark" });
         setShowForceLogin(true);
       } else {
         toast.error("Invalid Username or Password", { autoClose: 3000, theme: "dark" });
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
