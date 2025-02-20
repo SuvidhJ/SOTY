@@ -76,11 +76,11 @@ const Login = ({ setIsLoggedIn }: Props) => {
             </form>
 
 
-            {showForceLogin && (
+{/*             {showForceLogin && (
               <button onClick={handleForceLogout} className="text-red-500 underline">
                 Force Logout and Login
               </button>
-            )}
+            )} */}
           </div>
         </div>
         <div className="text-[#aaaaaa] text-sm md:text-lg">Note: Only one login allowed at the same time.</div>
