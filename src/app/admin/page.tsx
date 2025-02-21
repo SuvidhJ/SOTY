@@ -1,231 +1,149 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
 import axiosInstance from "@/axios";
-import Cookies from "js-cookie";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { jwtDecode, JwtPayload } from "jwt-decode";
-const showPerPage = 20;
+import { jwtDecode } from "jwt-decode";
+import { useRouter } from "next/navigation";
+
+const SHOW_PER_PAGE = 20;
+
 interface LeaderboardData {
   username: string;
   score: number | null;
   isBan: boolean;
 }
+
+interface CustomJwtPayload {
+  isAdmin: boolean;
+}
+
 export default function Admin() {
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardData[]>([]);
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [isEditing, setIsEditing] = useState(-1);
-  const [changedValue, setChangedValue] = useState<number | null>(null);
-  const [changedUsername, setChangedUsername] = useState("");
+  const [isEditing, setIsEditing] = useState<number | null>(null);
+  const [changedValue, setChangedValue] = useState<number | "">("");
   const router = useRouter();
-  const handleNextPage = () => {
-    if (page + 1 < leaderboardData.length / showPerPage) setPage(page + 1);
-  };
-  const handlePrevPage = () => {
-    if (page > 0) {
-      setPage(page - 1);
-    }
-  };
-  interface CustomJwtPayload extends JwtPayload {
-    isAdmin: boolean;
-  }
+
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log(token)
-    if (!token || token === "") {
+    if (!token) {
       router.push("/");
       return;
     }
-    const decodedData: CustomJwtPayload = jwtDecode(token);
-    console.log(decodedData);
-    if (!decodedData?.isAdmin) {
-      router.push("/admin");
 
+    try {
+      const decodedData: CustomJwtPayload = jwtDecode(token);
+      if (!decodedData?.isAdmin) {
+        router.push("/");
+        return;
+      }
+    } catch (error) {
+      console.error("Invalid token", error);
+      router.push("/");
       return;
     }
-    (async () => {
+
+    const fetchData = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
-        const response = await axiosInstance.get(
-          "https://soty-backend-25.vercel.app/users/allusers"
-        );
+        const response = await axiosInstance.get("/users/allusers");
         setLeaderboardData(response.data);
-        setLoading(false);
       } catch (error) {
-        toast.error("Error loading data!", {
-          className: "custom-bg-error",
-          autoClose: 3000,
-          theme: "dark",
-        });
+        toast.error("Error loading data!", { autoClose: 3000, theme: "dark" });
+      } finally {
+        setLoading(false);
       }
-    })();
-  }, []);
+    };
+
+    fetchData();
+  }, [router]);
+
   const handleSave = async () => {
-    if (changedValue !== null || changedValue !== "") {
-      const newLeaderboardArray = leaderboardData.map(
-        (item: LeaderboardData, i: number) =>
-          i === isEditing ? { ...item, score: changedValue } : item
-      );
-      setLeaderboardData(newLeaderboardArray);
-      setIsEditing(-1);
-      setChangedValue(null);
-      const token = localStorage.getItem("token");
-      try {
-        const reqBody = {
+    if (isEditing === null || changedValue === "") return;
+
+    const updatedData = leaderboardData.map((item, index) =>
+      index === isEditing ? { ...item, score: changedValue } : item
+    );
+    setLeaderboardData(updatedData);
+    setIsEditing(null);
+    setChangedValue("");
+
+    try {
+      await axiosInstance.put(
+        "/users/updatescore",
+        {
           username: leaderboardData[isEditing].username,
           newscore: changedValue,
-        };
-        const response = await axiosInstance.put(
-          `https://soty-backend-25.vercel.app/users/updatescore`,
-          reqBody,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response.data.message == "Access Forbidden: Admin only") {
-          toast.error("Only Admins can change scores!", {
-            className: "custom-bg-error",
-            autoClose: 3000,
-            theme: "dark",
-          });
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
-      } catch (error) {
-        toast.error("Error updating score", {
-          className: "custom-bg-error",
-          autoClose: 3000,
-          theme: "dark",
-        });
-      }
+      );
+      toast.success("Score updated successfully!");
+    } catch (error) {
+      toast.error("Error updating score");
     }
   };
 
   return (
     <div className="w-full h-fit flex justify-center items-center py-12">
       <ToastContainer />
-      <div className="--leaderboard-container w-[90%] md:w-[80%] h-full flex flex-col justify-start items-center gap-12 text-white">
+      <div className="w-[90%] md:w-[80%] flex flex-col items-center gap-12 text-white">
         <PrimaryButton>Admin Panel</PrimaryButton>
-        <div
-          className="--leaderboard-table-wrapper w-full rounded-2xl border-2 border-white overflow-hidden backdrop-blur-lg py-4 px-2 md:px-0.5"
-          style={{
-            background: "linear-gradient(to bottom, #401E1C , rgba(0,0,0,0))",
-          }}
-        >
+        <div className="w-full rounded-2xl border-2 border-white overflow-hidden backdrop-blur-lg py-4 px-2 md:px-0.5" style={{ background: "linear-gradient(to bottom, #401E1C , rgba(0,0,0,0))" }}>
           {loading ? (
-            <p className="text-3xl text-white font-medium text-center p-8">
-              Loading Data...
-            </p>
+            <p className="text-3xl text-white font-medium text-center p-8">Loading Data...</p>
           ) : (
-            leaderboardData.length > 0 && (
-              <table className="w-full my-8">
-                <thead className="text-lg md:text-xl underline-offset-4 underline font-medium">
+            <table className="w-full my-8">
+              <thead className="text-lg md:text-xl underline font-medium">
+                <tr>
                   <th>Rank</th>
                   <th>Team Name</th>
                   <th>Score</th>
-                  <th>Editing</th>
-                </thead>
-                <br />
-                {leaderboardData &&
-                  leaderboardData.map((data: LeaderboardData, i) => (
-                    <React.Fragment key={i}>
-                      {i < showPerPage * (page + 1) &&
-                        i >= showPerPage * page && (
-                          <tbody>
-                            <tr
-                              className={`--leaderboard-menu-item h-12 md:h-12 text-center text-lg md:text-2xl font-semibold border-b-[1px] border-white ${
-                                data.isBan ? "bg-red-600" : ""
-                              }`}
-                              key={i}
-                            >
-                              <td className="">{i + 1}</td>
-                              <td>
-                                {data?.username.length > 15
-                                  ? `${data?.username.slice(0, 15)}...`
-                                  : data?.username}
-                              </td>
-                              <td>
-                                {isEditing !== i ? (
-                                  data?.score
-                                ) : (
-                                  <input
-                                    type="number"
-                                    className="w-32  rounded-xl text-black text-center"
-                                    onChange={(e) =>
-                                      setChangedValue(parseInt(e.target.value))
-                                    }
-                                  ></input>
-                                )}
-                              </td>
-                              <td>
-                                {isEditing >= 0 ? (
-                                  <div className="flex gap-2 justify-center">
-                                    <button
-                                      type="button"
-                                      className="text-black bg-white px-4 py-1 rounded-full text-sm"
-                                      onClick={() => {
-                                        setIsEditing(-1);
-                                        handleSave();
-                                      }}
-                                    >
-                                      Save
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="text-black bg-white px-4 py-1 rounded-full text-sm"
-                                      onClick={() => {
-                                        setIsEditing(-1);
-                                      }}
-                                    >
-                                      Cancel
-                                    </button>
-                                  </div>
-                                ) : (
-                                  <button
-                                    type="button"
-                                    className="text-black bg-white px-4 py-1 rounded-full text-sm"
-                                    onClick={() => setIsEditing(i)}
-                                  >
-                                    Edit
-                                  </button>
-                                )}
-                                {/* {data?.isBan ? (
-                                  <button className="text-black bg-white px-4 py-1 rounded-full text-sm ml-2">
-                                    Unban
-                                  </button>
-                                ) : (
-                                  <button className="text-black bg-white px-4 py-1 rounded-full text-sm ml-2">
-                                    Ban
-                                  </button>
-                                )} */}
-                              </td>
-                            </tr>
-                          </tbody>
-                        )}
-                    </React.Fragment>
-                  ))}
-              </table>
-            )
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {leaderboardData.slice(page * SHOW_PER_PAGE, (page + 1) * SHOW_PER_PAGE).map((data, i) => (
+                  <tr key={i} className={`h-12 text-center text-lg md:text-2xl font-semibold border-b border-white ${data.isBan ? "bg-red-600" : ""}`}>
+                    <td>{page * SHOW_PER_PAGE + i + 1}</td>
+                    <td>{data.username.length > 15 ? `${data.username.slice(0, 15)}...` : data.username}</td>
+                    <td>
+                      {isEditing === i ? (
+                        <input
+                          type="number"
+                          className="w-32 rounded-xl text-black text-center"
+                          value={changedValue}
+                          onChange={(e) => setChangedValue(parseInt(e.target.value) || "")}
+                        />
+                      ) : (
+                        data.score
+                      )}
+                    </td>
+                    <td>
+                      {isEditing === i ? (
+                        <div className="flex gap-2 justify-center">
+                          <button className="text-black bg-white px-4 py-1 rounded-full text-sm" onClick={handleSave}>Save</button>
+                          <button className="text-black bg-white px-4 py-1 rounded-full text-sm" onClick={() => setIsEditing(null)}>Cancel</button>
+                        </div>
+                      ) : (
+                        <button className="text-black bg-white px-4 py-1 rounded-full text-sm" onClick={() => { setIsEditing(i); setChangedValue(data.score ?? ""); }}>Edit</button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
-          <div className="buttons flex justify-center md:justify-between items-center md:px-6">
-            <div className="scale-[65%]">
-              <SecondaryButton onClickHandler={handlePrevPage}>
-                &larr; Prev
-              </SecondaryButton>
-            </div>
-            <p className="text-sm text-nowrap md:text-xl text-white font-semibold">
-              Page: {page + 1}
-            </p>
-            <div className="scale-[65%]">
-              <SecondaryButton onClickHandler={handleNextPage}>
-                Next &rarr;
-              </SecondaryButton>
-            </div>
+          <div className="flex justify-between items-center px-6">
+            <SecondaryButton onClickHandler={() => setPage((prev) => Math.max(0, prev - 1))}>&larr; Prev</SecondaryButton>
+            <p className="text-xl text-white font-semibold">Page: {page + 1}</p>
+            <SecondaryButton onClickHandler={() => setPage((prev) => (prev + 1 < leaderboardData.length / SHOW_PER_PAGE ? prev + 1 : prev))}>Next &rarr;</SecondaryButton>
           </div>
         </div>
       </div>
