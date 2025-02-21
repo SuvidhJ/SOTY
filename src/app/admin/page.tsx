@@ -35,17 +35,16 @@ export default function Admin() {
       router.push("/");
       return;
     }
+    const decodedData = jwtDecode<CustomJwtPayload>(token);
+    console.log(decodedData);
 
-    try {
-      const decodedData: CustomJwtPayload = jwtDecode(token);
-      if (!decodedData?.isAdmin) {
-        router.push("/admin");
+      if (!decodedData.isAdmin) {
+        router.push("/");
         return;
       }
     } catch (error) {
       console.error("Invalid token", error);
       router.push("/");
-      return;
     }
 
     const fetchData = async () => {
