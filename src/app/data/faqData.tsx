@@ -1,90 +1,100 @@
 export const faqData = [
   {
-    question: "How do I scan?",
+    question: "How do I scan a QR code?",
     answer:
-      "To scan, follow these steps: Login, proceed with the riddles, allow the camera to scan, select the rear-facing camera, start scanning, and finally, submit.",
+      "To scan a QR code, follow these steps: Log in to your account, navigate through the riddles, grant camera permissions, select the rear-facing camera, start scanning, and submit your results once the scan is successful.",
   },
   {
-    question: "How long can I stay logged into the app?",
-    answer: "You can stay logged in for up to 12 hours.",
-  },
-  {
-    question: "Whom should I share my login credentials with?",
-    answer: "Share your login credentials only with your teammates.",
-  },
-  {
-    question: "How many logins are allowed simultaneously?",
+    question: "How long will I remain logged into the system?",
     answer:
-      "Only single-user logins are recommended; using the same login for multiple users is not advisable.",
+      "You will stay logged in for up to 12 hours unless you manually log out or your session expires due to inactivity.",
   },
   {
-    question:
-      "What is the maximum number of attempts before receiving a time penalty?",
+    question: "Should I share my login credentials with anyone?",
     answer:
-      "You are allowed a maximum of two incorrect scans before incurring a time penalty of 2 minutes.",
+      "No, you should only share your login credentials with your teammates. Sharing credentials outside of your team is strictly prohibited.",
+  },
+  {
+    question: "Can multiple users log in using the same account?",
+    answer:
+      "No, only a single-user login is recommended. Using the same credentials across multiple devices can result in synchronization issues and potential penalties.",
+  },
+  {
+    question: "How many incorrect attempts before receiving a penalty?",
+    answer:
+      "You are allowed a maximum of two incorrect scans. If you exceed this limit, a time penalty of 2 minutes will be imposed before you can attempt again.",
   },
   {
     question: "What should I do if the QR code does not scan?",
     answer:
-      "If the QR code fails to scan, use Google Lens to decrypt the code and manually input the received text in the provided text box below the scanner.",
+      "If the QR code fails to scan, use Google Lens to extract the encoded text and manually enter it in the designated input field below the scanner.",
   },
   {
-    question: "What should I do if I accidentally get logged out?",
+    question: "What happens if I get logged out unexpectedly?",
     answer:
-      "If you happen to get logged out, simply log in again using the same credentials.",
+      "If you get logged out, simply log back in using the same credentials. Ensure your network connection is stable to prevent further disconnections.",
   },
   {
-    question: "Can there be multiple riddles for the same location?",
-    answer: "Yes, there can be multiple riddles for the same location.",
+    question: "Can there be multiple riddles assigned to the same location?",
+    answer: "Yes, a single location may have multiple riddles assigned to it.",
   },
   {
-    question:
-      "After two wrong submissions if I get to scan again without the timer being over, will it be accepted?",
+    question: "If I submit incorrectly twice and attempt a third scan before the timer expires, will it be accepted?",
     answer:
-      "No, even if the third submission seems to be correct after two wrong attempts, the ban will still be in effect for the allotted 2 minutes.",
+      "No, even if your third submission is correct, the penalty remains in effect for the full 2-minute duration.",
   },
   {
     question: "How should I navigate through the website?",
     answer:
-      "Utilize the buttons within the application to navigate through the website efficiently to get logged in to your account properly.",
+      "Use the built-in navigation buttons to move efficiently through the website and ensure you remain properly logged into your account.",
   },
   {
-    question: "Are Power-ups available during lunch breaks?",
-    answer: "No, powerups are not available during lunch breaks.",
+    question: "Are power-ups available during lunch breaks?",
+    answer: "No, power-ups cannot be activated or used during designated lunch breaks.",
   },
   {
-    question: "How many powers can be used upon a single team",
+    question: "How many times can a power-up be used on a single team?",
     answer:
-      "1 power-up cannot be implemented more than 3 times on a particular team.",
+      "A single power-up cannot be used more than three times on the same team.",
   },
   {
-    question: "Can we ask about the current power-ups of other teams?",
+    question: "Can I check the active power-ups of other teams?",
     answer:
-      "While choosing the attack we won't be telling you the power-up situation of other teams.",
+      "No, you will not be able to view the current power-up status of other teams while selecting an attack.",
   },
   {
-    question: "What is the attacking power of “Riddle Redirect”?",
+    question: "What is the effect of the 'Freeze' power-up?",
     answer:
-      "You can give any of your opponents a riddle to solve, in which they have to reach the nearest game centers to pick their riddles and solve them manually. They have 15 15-minute timers under which they have to take the riddles from the nearest center, solve it, and revert to the nearest helpdesk. If they fail to do so a 50 points reduction will be imposed on the team.Importantly, if you log out during this time, the ban timer will not be counted, and it will persist upon logging back in.",
+      "The 'Freeze' power-up locks another team's leaderboard score for 15 minutes. During this period, their points will not increase, regardless of their progress in challenges.",
   },
   {
-    question: "What is the attacking power of “Freeze The Breeze”?",
+    question: "What does the 'Power Surge' power-up do?",
     answer:
-      "You can freeze any of your opponents for the next 15 minutes under which they won’t be able to solve the riddles for the next 15 minutes. Importantly, if you log out during this time, the ban timer will not be counted, and it will persist upon logging back in.",
+      "The 'Power Surge' instantly boosts your team’s score by adding 200 points to your total on the leaderboard.",
   },
   {
-    question: "What is the attacking power of “Hundredfold Hit”?",
+    question: "What is the effect of the 'Shield' power-up?",
     answer:
-      "The “Hundredfold Hit” power allows you to reduce 100 points from another team's total points on the leaderboard.",
+      "The 'Shield' power-up protects your team from a single attack. Any power-up or offensive action targeted at your team will be blocked entirely.",
   },
   {
-    question: "What is the attacking power of “Double-Half Dilemma”?",
+    question: "How does the 'Shell' power-up work?",
     answer:
-      "When the “Double-Half Dilemma” power is activated, you have two options; first, for the next 15 minutes, a chosen team's points will be added with half the value during this period, and second, for the next 15 minutes, your points will increase at a speed of 2x value during this period.",
+      "The 'Shell' power-up halves the points earned by a selected team for 15 minutes. During this time, they will only gain 50% of their usual points.",
   },
   {
-    question: "What is the defencing power of all the power-ups?",
+    question: "What is the effect of the 'Game Disparity' power-up?",
     answer:
-      "If you have the defence of any respective power-ups, then it can be used to protect yourself from the attack of that particular power-up.",
+      "The 'Game Disparity' power-up blocks another team's access to power-ups and game centers for 15 minutes, creating a strategic advantage for your team.",
+  },
+  {
+    question: "How does the 'Point Steal' power-up function?",
+    answer:
+      "The 'Point Steal' power-up allows you to target a team and steal 25% of the points they earn for 15 minutes, adding them to your own total.",
+  },
+  {
+    question: "Can defensive power-ups protect against all attacks?",
+    answer:
+      "Yes, if you possess the defense version of a power-up, it can be activated to shield your team from the effects of that specific power-up.",
   },
 ];
