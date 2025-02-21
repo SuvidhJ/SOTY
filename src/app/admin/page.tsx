@@ -44,7 +44,7 @@ export default function Admin() {
     const decodedData: CustomJwtPayload = jwtDecode(token);
     console.log(decodedData);
     if (!decodedData?.isAdmin) {
-      router.push("/");
+      router.push("/admin");
 
       return;
     }
