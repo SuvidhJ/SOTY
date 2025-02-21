@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
-import axios from "axios";
+import axiosInstance from "@/axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
@@ -35,7 +35,7 @@ export default function Admin() {
     isAdmin: boolean;
   }
   useEffect(() => {
-    const token = Cookies.get("jwtToken");
+    const token = localStorage.getItem("token");
     if (!token || token === "") {
       router.push("/");
       return;
@@ -49,8 +49,8 @@ export default function Admin() {
     (async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          "http://localhost:5001/users/allusers"
+        const response = await axiosInstance.get(
+          "https://soty-backend-25.vercel.app/users/allusers"
         );
         setLeaderboardData(response.data);
         setLoading(false);
@@ -72,14 +72,14 @@ export default function Admin() {
       setLeaderboardData(newLeaderboardArray);
       setIsEditing(-1);
       setChangedValue(null);
-      const token = Cookies.get("jwtToken");
+      const token = localStorage.getItem("token");
       try {
         const reqBody = {
           username: leaderboardData[isEditing].username,
           newscore: changedValue,
         };
-        const response = await axios.put(
-          `http://localhost:5001/users/updatescore`,
+        const response = await axiosInstance.put(
+          `https://soty-backend-25.vercel.app/users/updatescore`,
           reqBody,
           {
             headers: {
