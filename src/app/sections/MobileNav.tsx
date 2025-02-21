@@ -19,7 +19,6 @@ const MobileNav = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
   const menuRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
 
-  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -157,7 +156,7 @@ const MobileNav = ({ isLoggedIn, setMenu, menu, setIsLoggedIn }: Props) => {
             onClick={() => {
               setMenu("home");
               setShowMenu(false);
-              router.push("/login");
+              router.push("/");
             }}
           >
             LOGIN
