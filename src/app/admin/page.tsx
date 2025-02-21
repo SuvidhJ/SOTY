@@ -29,15 +29,17 @@ export default function Admin() {
   const [changedValue, setChangedValue] = useState<number | "">("");
   const router = useRouter();
 
-  useEffect(() => {
+useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       router.push("/");
       return;
     }
-    const decodedData = jwtDecode<CustomJwtPayload>(token);
-    console.log(decodedData);
-
+  
+    try {
+      const decodedData = jwtDecode<CustomJwtPayload>(token);
+      console.log(decodedData);
+  
       if (!decodedData.isAdmin) {
         router.push("/");
         return;
@@ -45,8 +47,9 @@ export default function Admin() {
     } catch (error) {
       console.error("Invalid token", error);
       router.push("/");
+      return;
     }
-
+  
     const fetchData = async () => {
       setLoading(true);
       try {
@@ -58,9 +61,10 @@ export default function Admin() {
         setLoading(false);
       }
     };
-
+  
     fetchData();
   }, [router]);
+
 
   const handleSave = async () => {
     if (isEditing === null || changedValue === "") return;
