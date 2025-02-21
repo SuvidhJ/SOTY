@@ -38,7 +38,7 @@ useEffect(() => {
   
     try {
       const decodedData = jwtDecode<CustomJwtPayload>(token);
-      console.log(decodedData);
+      // console.log(decodedData);
   
       if (!decodedData.isAdmin) {
         router.push("/");
