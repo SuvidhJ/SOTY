@@ -39,16 +39,36 @@ const Login = ({ setIsLoggedIn }: Props) => {
   };
 
   const handleForceLogout = async () => {
-     try {
-      await axiosInstance.post("auth/logout", { username });
+  if (!username) {
+    toast.error("Invalid user!", { autoClose: 3000, theme: "dark" });
+    return;
+  }
+
+  try {
+    const response = await axiosInstance.post("auth/logout", { username });
+
+    if (response.status === 200) {
       toast.success("Previous session logged out!", { autoClose: 3000, theme: "dark" });
       setShowForceLogin(false);
-      handleLogin();
-    } catch (error) {
-      console.log(error);
-       toast.error("Failed to logout previous session", { autoClose: 3000, theme: "dark" });
+      await handleLogin();
+    } else {
+      throw new Error("Logout request failed");
     }
-  };
+  } catch (error) {
+    console.error("Force logout error:", error);
+
+    try {
+      await axiosInstance.post("auth/logout", { username });
+      toast.success("Previous session logged out after retry!", { autoClose: 3000, theme: "dark" });
+      setShowForceLogin(false);
+      await handleLogin();
+    } catch (retryError) {
+      console.error("Force logout retry failed:", retryError);
+      toast.error("Failed to logout previous session after retry", { autoClose: 3000, theme: "dark" });
+    }
+  }
+};
+
 
   return (
     <div className="--login-wrapper w-full h-screen flex items-center relative">
