@@ -36,11 +36,13 @@ export default function Admin() {
   }
   useEffect(() => {
     const token = localStorage.getItem("token");
+    console.log(token)
     if (!token || token === "") {
       router.push("/");
       return;
     }
     const decodedData: CustomJwtPayload = jwtDecode(token);
+    console.log(decodedData);
     if (!decodedData?.isAdmin) {
       router.push("/");
 
